@@ -2,7 +2,9 @@ import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "@/server/api/trpc";
 
-export const postRouter = createTRPCRouter({
+import {db} from "@/server/db"
+
+export const competitionRouter = createTRPCRouter({
   hello: publicProcedure
     .input(z.object({ text: z.string() }))
     .query(({ input }) => {
@@ -24,9 +26,8 @@ export const postRouter = createTRPCRouter({
       });
     }),
 
-  getLatest: publicProcedure.query(({ ctx }) => {
-    return ctx.db.post.findFirst({
-      orderBy: { createdAt: "desc" },
-    });
+  getLatest: publicProcedure.query(async ({ ctx }) => {
+    const res = await 
+    return res;
   }),
 });
