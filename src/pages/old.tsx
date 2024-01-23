@@ -18,7 +18,7 @@ export default function Home() {
   const limit = useRef(3);
   const [loading, setLoading] = useState(false);
   const comps: Competition[] =
-    api.competition.getAllUpcoming.useQuery().data ?? [];
+    api.competition.getAllPrevious.useQuery().data ?? [];
 
   useEffect(() => {
     if (comps.length !== limit.current) {
@@ -30,7 +30,7 @@ export default function Home() {
       <Nav />
       <div className="px-40">
         <Table>
-          <TableCaption>Next competitions</TableCaption>
+          <TableCaption>Previous competitions</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">Title</TableHead>

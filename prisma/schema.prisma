@@ -10,11 +10,13 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@index([name])
+model Competition {
+    id         String    @id @default(uuid())
+    created_at DateTime  @default(now())
+    updated_at DateTime  @updatedAt
+    date       DateTime?
+    title      String?
+    organiser  String?
+    deadline   DateTime?
+    place      String?
 }
