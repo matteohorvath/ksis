@@ -10,9 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Nav from "@/components/nav/nav";
-import { Input } from "@/components/ui/input";
 import { useEffect, useRef, useState } from "react";
-import { set } from "zod";
 
 export default function Home() {
   const limit = useRef(3);
@@ -24,7 +22,7 @@ export default function Home() {
     if (comps.length !== limit.current) {
       setLoading(true);
     }
-  }, [comps.length, limit.current]);
+  }, [comps.length]);
   return (
     <div>
       <Nav />

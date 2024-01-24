@@ -10,21 +10,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Nav from "@/components/nav/nav";
-import { Input } from "@/components/ui/input";
-import { useEffect, useRef, useState } from "react";
-import { set } from "zod";
 
 export default function Home() {
-  const limit = useRef(3);
-  const [loading, setLoading] = useState(false);
   const comps: Competition[] =
     api.competition.getAllPrevious.useQuery().data ?? [];
 
-  useEffect(() => {
-    if (comps.length !== limit.current) {
-      setLoading(true);
-    }
-  }, [comps.length, limit.current]);
   return (
     <div>
       <Nav />
@@ -36,7 +26,7 @@ export default function Home() {
               <TableHead className="w-[100px]">Title</TableHead>
               <TableHead>Place</TableHead>
               <TableHead>Organiser</TableHead>
-              <TableHead className="text-right">Deadline</TableHead>
+              <TableHead className="text-right">Date</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -46,13 +36,13 @@ export default function Home() {
                 <TableCell>{comp.place}</TableCell>
                 <TableCell>{comp.organiser}</TableCell>
                 <TableCell className="text-right">
-                  {`${comp.deadline?.getFullYear()}. ${comp.deadline?.getMonth()}. ${comp.deadline?.getDate()}.`}
+                  {`${comp.date?.getFullYear()}. ${comp.date?.getMonth()}. ${comp.date?.getDate()}.`}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-        {loading ?? <div>Loading...</div>}
+
         {/*<Input
           type="number"
           onBlur={(event) => {
