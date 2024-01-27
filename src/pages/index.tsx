@@ -28,7 +28,7 @@ export default function Home() {
       <Nav />
       <div className="px-40">
         <Table>
-          <TableCaption>Next competitions</TableCaption>
+          <TableCaption>Next competitions </TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead className="w-[100px]">Title</TableHead>
