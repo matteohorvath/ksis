@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <div>
       <Nav />
-      <div className="px-40">
+      <div className="md:px-40">
         <Table>
           <TableCaption>Previous competitions</TableCaption>
           <TableHeader>
