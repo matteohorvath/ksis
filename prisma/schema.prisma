@@ -10,6 +10,8 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+//a
+
 model Competition {
     id         String    @id @default(uuid())
     created_at DateTime  @default(now())
