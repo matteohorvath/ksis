@@ -1,56 +1,30 @@
 import { api } from "@/utils/api";
 import { type Competition } from "@prisma/client";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+
 import Nav from "@/components/nav/nav";
+import { ArchiveCompetitionCard } from "@/components/competition/competiton";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
+  const limit = useRef(3);
+  const [loading, setLoading] = useState(true);
+
   const comps: Competition[] =
     api.competition.getAllPrevious.useQuery().data ?? [];
 
+  useEffect(() => {
+    if (loading && comps.length > limit.current) {
+      setLoading(false);
+    }
+  }, [comps.length, loading]);
   return (
     <div>
       <Nav />
-      <div className="md:px-40">
-        <Table>
-          <TableCaption>Previous competitions</TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[100px]">Title</TableHead>
-              <TableHead>Place</TableHead>
-              <TableHead>Organiser</TableHead>
-              <TableHead className="text-right">Date</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {comps.map((comp) => (
-              <TableRow key={comp.id}>
-                <TableCell>{comp.title}</TableCell>
-                <TableCell>{comp.place}</TableCell>
-                <TableCell>{comp.organiser}</TableCell>
-                <TableCell className="text-right">
-                  {`${comp.date?.getFullYear()}. ${comp.date?.getMonth()}. ${comp.date?.getDate()}.`}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
 
-        {/*<Input
-          type="number"
-          onBlur={(event) => {
-            setLoading(true);
-            limit.current = parseInt(event.target.value);
-          }}
-          defaultValue={limit.current}
-        />*/}
+      <div className="grid gap-4 px-10 sm:grid-cols-2 sm:px-20 md:px-40 lg:grid-cols-3">
+        {comps.map((comp) => (
+          <ArchiveCompetitionCard competition={comp} key={comp.id} />
+        ))}
       </div>
     </div>
   );

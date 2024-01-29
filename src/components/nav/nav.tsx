@@ -17,9 +17,11 @@ import {
 
 export default function Nav({ className }: { className?: string }) {
   return (
-    <div className={`${className} px-10 py-10 md:visible md:px-40 `}>
+    <div
+      className={`${className} px-10 px-10 py-10 sm:px-20 md:visible md:px-40 `}
+    >
       <NavigationMenu>
-        <div className="mr-10 text-2xl">KSIS</div>
+        <div className="mr-10 text-2xl font-bold">KSIS</div>
         <NavContent className="hidden md:flex" />
         <NavigationMenuList className=" md:hidden">
           <NavigationMenuItem>
@@ -49,14 +51,14 @@ function NavContent({ className }: { className?: string }) {
       <NavigationMenuItem>
         <Link href="/" legacyBehavior passHref>
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Upcoming competitions
+            Következő versenyek
           </NavigationMenuLink>
         </Link>
       </NavigationMenuItem>
       <NavigationMenuItem>
         <Link href="/old" legacyBehavior passHref>
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Previous competitions
+            Régi versenyek
           </NavigationMenuLink>
         </Link>
       </NavigationMenuItem>

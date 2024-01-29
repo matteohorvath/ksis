@@ -3,7 +3,7 @@ import { type AppType } from "next/app";
 import { api } from "@/utils/api";
 
 import "@/styles/globals.css";
-import { Montserrat as FontSans } from "next/font/google";
+import { Inter as FontSans } from "next/font/google";
 
 import { cn } from "@/lib/utils";
 
@@ -14,13 +14,15 @@ export const fontSans = FontSans({
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <Component
-      {...pageProps}
-      className={cn(
-        "bg-background min-h-screen font-sans antialiased",
-        fontSans.variable,
-      )}
-    />
+    <main className={fontSans.className}>
+      <Component
+        {...pageProps}
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased ",
+          fontSans.className,
+        )}
+      />
+    </main>
   );
 };
 

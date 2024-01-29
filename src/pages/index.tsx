@@ -11,54 +11,30 @@ import {
 } from "@/components/ui/table";
 import Nav from "@/components/nav/nav";
 import { useEffect, useRef, useState } from "react";
+import CompetitionCard from "@/components/competition/competiton";
 
 export default function Home() {
   const limit = useRef(3);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const comps: Competition[] =
     api.competition.getAllUpcoming.useQuery().data ?? [];
 
   useEffect(() => {
-    if (comps.length !== limit.current) {
-      setLoading(true);
+    if (loading && comps.length > limit.current) {
+      setLoading(false);
     }
-  }, [comps.length]);
+  }, [comps.length, loading]);
   return (
     <div>
       <Nav />
-      <div className="md:px-40">
-        <Table>
-          <TableCaption>Next competitions </TableCaption>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[100px]">Title</TableHead>
-              <TableHead>Place</TableHead>
-              <TableHead>Organiser</TableHead>
-              <TableHead className="text-right">Deadline</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {comps.map((comp) => (
-              <TableRow key={comp.id}>
-                <TableCell>{comp.title}</TableCell>
-                <TableCell>{comp.place}</TableCell>
-                <TableCell>{comp.organiser}</TableCell>
-                <TableCell className="text-right">
-                  {`${comp.deadline?.getFullYear()}. ${comp.deadline?.getMonth()}. ${comp.deadline?.getDate()}.`}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        {loading ?? <div>Loading...</div>}
-        {/*<Input
-          type="number"
-          onBlur={(event) => {
-            setLoading(true);
-            limit.current = parseInt(event.target.value);
-          }}
-          defaultValue={limit.current}
-        />*/}
+      <div className="grid gap-4 px-10 sm:grid-cols-2 sm:px-20 md:px-40 lg:grid-cols-3">
+        {loading ? (
+          <div className="text-center">Betöltés...</div>
+        ) : (
+          comps.map((comp) => (
+            <CompetitionCard competition={comp} key={comp.id} />
+          ))
+        )}
       </div>
     </div>
   );

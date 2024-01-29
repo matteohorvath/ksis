@@ -10,15 +10,23 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-//a
-
 model Competition {
-    id         String    @id @default(uuid())
-    created_at DateTime  @default(now())
-    updated_at DateTime  @updatedAt
+    id         String     @id @default(uuid())
+    created_at DateTime   @default(now())
+    updated_at DateTime   @updatedAt
     date       DateTime?
     title      String?
     organiser  String?
     deadline   DateTime?
     place      String?
+    Category   Category[]
+}
+
+model Category {
+    id             String      @id @default(uuid())
+    created_at     DateTime    @default(now())
+    updated_at     DateTime    @updatedAt
+    name           String?
+    competition    Competition @relation(fields: [competition_id], references: [id])
+    competition_id String
 }
