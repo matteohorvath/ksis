@@ -14,7 +14,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-
+import { fontSans } from "@/pages/_app";
 export default function Nav({ className }: { className?: string }) {
   return (
     <div
@@ -28,7 +28,7 @@ export default function Nav({ className }: { className?: string }) {
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               <Sheet>
                 <SheetTrigger>Open</SheetTrigger>
-                <SheetContent side={"left"}>
+                <SheetContent side={"left"} className={fontSans.className}>
                   <SheetHeader>
                     <SheetTitle>KSIS</SheetTitle>
                     <SheetDescription>
@@ -51,14 +51,14 @@ function NavContent({ className }: { className?: string }) {
       <NavigationMenuItem>
         <Link href="/" legacyBehavior passHref>
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Következő versenyek
+            <div className="text-xl">Következő versenyek</div>
           </NavigationMenuLink>
         </Link>
       </NavigationMenuItem>
       <NavigationMenuItem>
         <Link href="/old" legacyBehavior passHref>
           <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-            Régi versenyek
+            <div className="text-xl">Régi versenyek</div>
           </NavigationMenuLink>
         </Link>
       </NavigationMenuItem>
