@@ -1,14 +1,6 @@
 import { api } from "@/utils/api";
 import { type Competition } from "@prisma/client";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+
 import Nav from "@/components/nav/nav";
 import { useEffect, useRef, useState } from "react";
 import CompetitionCard from "@/components/competition/competiton";

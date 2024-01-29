@@ -17,9 +17,7 @@ import {
 import { fontSans } from "@/pages/_app";
 export default function Nav({ className }: { className?: string }) {
   return (
-    <div
-      className={`${className} px-10 px-10 py-10 sm:px-20 md:visible md:px-40 `}
-    >
+    <div className={`${className} px-10  py-10 sm:px-20 md:visible md:px-40 `}>
       <NavigationMenu>
         <div className="mr-10 text-2xl font-bold">KSIS</div>
         <NavContent className="hidden md:flex" />
@@ -27,7 +25,7 @@ export default function Nav({ className }: { className?: string }) {
           <NavigationMenuItem>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               <Sheet>
-                <SheetTrigger>Open</SheetTrigger>
+                <SheetTrigger>Menü</SheetTrigger>
                 <SheetContent side={"left"} className={fontSans.className}>
                   <SheetHeader>
                     <SheetTitle>KSIS</SheetTitle>
