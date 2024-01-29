@@ -19,7 +19,9 @@ export default function Nav({ className }: { className?: string }) {
   return (
     <div className={`${className} px-10  py-10 sm:px-20 md:visible md:px-40 `}>
       <NavigationMenu>
-        <div className="mr-10 text-2xl font-bold">KSIS</div>
+        <Link href="/" passHref>
+          <div className="mr-10 text-2xl font-bold">KSIS</div>
+        </Link>
         <NavContent className="hidden md:flex" />
         <NavigationMenuList className=" md:hidden">
           <NavigationMenuItem>
