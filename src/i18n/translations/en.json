@@ -3,6 +3,10 @@
     "title": "KSIS MTASZ",
     "subtitle": "Dance Competition Management System"
   },
+  "navigation": {
+    "upcomingCompetitions": "Upcoming Competitions",
+    "previousCompetitions": "Previous Competitions"
+  },
   "main": {
     "calendar": {
       "title": "Competition Calendar",
@@ -14,7 +18,12 @@
       "message": "Error loading competition data. Please try again later.",
       "retry": "Retry"
     },
-    "noData": "No competition data available at the moment."
+    "noData": "No competition data available at the moment.",
+    "filter": {
+      "year": "Filter by Year",
+      "allYears": "All Years"
+    },
+    "noUpcomingCompetitions": "No upcoming competitions scheduled."
   },
   "footer": {
     "copyright": "© {year} KSIS MTASZ Dance Competition Management System"
@@ -27,9 +36,9 @@
       "upcoming": "upcoming",
       "location": "Location:",
       "organizer": "Organizer:",
-      "exactLocation": "Exact Location:",
-      "registrationDeadline": "Registration Deadline:",
+      "deadline": "Registration Deadline:",
       "categories": "Categories:",
+      "viewDetails": "View Details",
       "registerNow": "Register Now",
       "registrationLinks": "Direct registration links for all categories are available above"
     }

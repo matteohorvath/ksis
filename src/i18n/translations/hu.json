@@ -3,6 +3,10 @@
     "title": "KSIS MTASZ",
     "subtitle": "Táncverseny Kezelő Rendszer"
   },
+  "navigation": {
+    "upcomingCompetitions": "Közelgő Versenyek",
+    "previousCompetitions": "Korábbi Versenyek"
+  },
   "main": {
     "calendar": {
       "title": "Versenynaptár",
@@ -14,7 +18,12 @@
       "message": "Hiba történt a verseny adatok betöltésekor. Kérjük, próbálja újra később.",
       "retry": "Újra"
     },
-    "noData": "Jelenleg nincsenek verseny adatok."
+    "noData": "Jelenleg nincsenek verseny adatok.",
+    "filter": {
+      "year": "Szűrés év szerint",
+      "allYears": "Összes év"
+    },
+    "noUpcomingCompetitions": "Nincs közelgő verseny."
   },
   "footer": {
     "copyright": "© {year} KSIS MTASZ Táncverseny Kezelő Rendszer"
@@ -24,12 +33,12 @@
       "noCompetitions": "Ebben a hónapban nincs verseny."
     },
     "competitionCard": {
-      "upcoming": "következő",
+      "upcoming": "jövőbeli",
       "location": "Helyszín:",
       "organizer": "Szervező:",
-      "exactLocation": "Pontos helyszín:",
-      "registrationDeadline": "Nevezési határidő:",
+      "deadline": "Nevezési határidő:",
       "categories": "Kategóriák:",
+      "viewDetails": "Részletek",
       "registerNow": "Nevezés",
       "registrationLinks": "A kategóriák közvetlen nevezési linkjei fent találhatók"
     }

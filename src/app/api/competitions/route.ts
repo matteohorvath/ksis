@@ -1,210 +1,256 @@
 import { NextResponse } from "next/server";
-import axios from "axios";
 import * as cheerio from "cheerio";
 
-// Define types for the competition data
+type Category = {
+  name: string;
+  url: string;
+};
+
 type Competition = {
-  id: string;
   date: string;
   title: string;
-  place: string;
-  organiser: string;
-  deadline: string;
-  exactLocation?: string;
-  categories?: { name: string; url: string }[];
+  location: string;
+  categories: Category[];
   url: string;
+  organizer?: string;
+  deadline?: string;
+  exactLocation?: string;
 };
 
 type Month = {
   name: string;
-  competitions: {
-    date: string;
-    title: string;
-    location: string;
-    categories: { name: string; url: string }[];
-    url: string;
-    organizer?: string;
-    deadline?: string;
-    exactLocation?: string;
-  }[];
+  competitions: Competition[];
 };
 
 type ApiResponse = {
   months: Month[];
 };
 
-const BASE_URL = "https://ksis.szts.sk/mtasz";
-
-// Helper function to group competitions by month
-function groupCompetitionsByMonth(competitions: Competition[]): Month[] {
-  const monthsMap = new Map<string, Month>();
-
-  // Hungarian month names
-  const monthNames = [
-    "Január",
-    "Február",
-    "Március",
-    "Április",
-    "Május",
-    "Június",
-    "Július",
-    "Augusztus",
-    "Szeptember",
-    "Október",
-    "November",
-    "December",
-  ];
-
-  competitions.forEach((comp) => {
-    // Parse date from YYYY.MM.DD format
-    const [year, month] = comp.date.split(".").map(Number);
-    const monthIndex = month - 1; // Convert to 0-based index
-    const monthName = `${monthNames[monthIndex]} ${year}`;
-
-    if (!monthsMap.has(monthName)) {
-      monthsMap.set(monthName, {
-        name: monthName,
-        competitions: [],
-      });
-    }
-
-    monthsMap.get(monthName)?.competitions.push({
-      date: comp.date,
-      title: comp.title,
-      location: comp.place, // Map 'place' to 'location'
-      categories: comp.categories || [],
-      url: comp.url,
-      organizer: comp.organiser, // Map 'organiser' to 'organizer'
-      deadline: comp.deadline,
-      exactLocation: comp.exactLocation,
-    });
-  });
-
-  // Sort months chronologically
-  return Array.from(monthsMap.values()).sort((a, b) => {
-    const [monthA, yearA] = a.name.split(" ");
-    const [monthB, yearB] = b.name.split(" ");
-
-    const yearDiff = parseInt(yearA) - parseInt(yearB);
-    if (yearDiff !== 0) return yearDiff;
-
-    const monthIndexA = monthNames.indexOf(monthA);
-    const monthIndexB = monthNames.indexOf(monthB);
-    return monthIndexA - monthIndexB;
-  });
-}
-
 export async function GET() {
   try {
-    // Fetch the HTML content from the KSIS website using the correct endpoint for upcoming competitions
-    const response = await axios.get(`${BASE_URL}/menu.php?akcia=KS`);
-    const html = response.data;
+    // Fetch data from the target website with the correct endpoint parameter
+    const response = await fetch(
+      "https://ksis.szts.sk/mtasz/menu.php?akcia=KS",
+      {
+        headers: {
+          "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+        },
+      }
+    );
 
-    // Load the HTML into cheerio
+    if (!response.ok) {
+      throw new Error(`Failed to fetch data: ${response.status}`);
+    }
+
+    const html = await response.text();
+
+    // Parse HTML using cheerio
     const $ = cheerio.load(html);
 
-    const competitions: Competition[] = [];
+    // Initialize the result structure
+    const result: ApiResponse = {
+      months: [],
+    };
 
-    // Process competition rows from the table
-    // According to DB.md, upcoming competitions have this structure:
-    // - Date: First <strong> tag in each row (format: YYYY.MM.DD)
-    // - Title: First <strong> tag in the next column
-    // - Organizer: Second <strong> tag, split by ":" to get value
-    // - Place: Third <strong> tag, split by ":" to get value
-    // - Deadline: Fourth <strong> tag, split by ":" to get date value
+    // The website structure has panels for each month with tables inside
+    // Each panel has a panel-heading with the month name and a table with class "table"
+    $(".panel.panel-primary").each((panelIndex, panel) => {
+      // Extract month name from the panel heading
+      const monthHeader = $(panel).find(".panel-heading").text().trim();
 
-    $("table tr").each((_, row) => {
-      const cells = $(row).find("td");
-      if (cells.length < 2) return;
+      if (!monthHeader) {
+        console.log(`No month header found for panel ${panelIndex}`);
+        return; // Skip if no month header
+      }
 
-      // Extract date from the first cell
-      const dateCell = $(cells[0]);
-      const dateText = dateCell.find("strong").first().text().trim();
+      const competitions: Competition[] = [];
+      const currentDate = new Date();
 
-      // Skip if not a valid date format
-      if (!dateText.match(/^\d{4}\.\d{2}\.\d{2}$/)) return;
+      // Find the table within this panel
+      $(panel)
+        .find("table.table tbody tr")
+        .each((rowIndex, row) => {
+          const cells = $(row).find("td");
+          if (cells.length < 2) {
+            console.log(`Row ${rowIndex} has insufficient cells`);
+            return; // Skip rows with insufficient cells
+          }
 
-      // Extract data from the second cell
-      const contentCell = $(cells[1]);
-      const strongTags = contentCell.find("strong");
+          // Extract date from the first cell
+          const dateCell = $(cells[0]);
+          const dateText = dateCell.find("strong").text().trim();
 
-      if (strongTags.length < 4) return;
+          if (!dateText) {
+            console.log(`No date found in row ${rowIndex}`);
+            return;
+          }
 
-      // Extract title (first strong tag)
-      const title = $(strongTags[0]).text().trim();
+          // Parse the date
+          let competitionDate;
+          try {
+            // The date format is YYYY.MM.DD
+            const [year, month, day] = dateText.split(".").map(Number);
+            competitionDate = new Date(year, month - 1, day);
 
-      // Extract organiser (second strong tag)
-      const organiserText = $(strongTags[1]).text().trim();
-      const organiser = organiserText.split(":")[1]?.trim() || organiserText;
+            // Skip past competitions
+            if (competitionDate < currentDate) {
+              console.log(`Skipping past competition: ${dateText}`);
+              return;
+            }
+          } catch (e) {
+            console.log(`Error parsing date ${dateText}: ${e}`);
+            return;
+          }
 
-      // Extract place (third strong tag)
-      const placeText = $(strongTags[2]).text().trim();
-      const place = placeText.split(":")[1]?.trim() || placeText;
+          // Get the details cell (second cell)
+          const detailsCell = $(cells[1]);
 
-      // Extract deadline (fourth strong tag)
-      const deadlineText = $(strongTags[3]).text().trim();
-      const deadline = deadlineText.split(":")[1]?.trim() || "";
+          // Extract the title (first strong element with blue font)
+          const titleElement = detailsCell.find("font[color='#0000FF'] strong");
+          const title = titleElement.text().trim();
 
-      // Extract URL from the first link that points to a competition detail
-      let url = "";
-      let id = "";
-      contentCell.find("a").each((_, link) => {
-        const href = $(link).attr("href") || "";
-        if (href.includes("podujatie.php?pod_id=")) {
-          url = href;
-          const idMatch = href.match(/pod_id=(\d+)/);
-          id = idMatch ? idMatch[1] : "";
-          return false; // Break the loop after finding the first matching link
-        }
-      });
+          if (!title) {
+            console.log(`No title found for competition in row ${rowIndex}`);
+            return;
+          }
 
-      // Extract categories
-      const categories: { name: string; url: string }[] = [];
-      contentCell.find("a").each((_, link) => {
-        const href = $(link).attr("href") || "";
-        if (href.includes("sutaz.php?sutaz_id=")) {
-          const categoryName = $(link).text().trim();
-          categories.push({
-            name: categoryName,
-            url: href.startsWith("http") ? href : `${BASE_URL}/${href}`,
-          });
-        }
-      });
+          // Extract location (second strong element)
+          const strongElements = detailsCell.find("strong");
+          let location = "";
+          if (strongElements.length > 1) {
+            location = $(strongElements[1]).text().trim();
+            // Remove label prefix entirely
+            location = location.replace(/^.*?: /, "");
+          }
 
-      if (title && dateText) {
-        const competitionData: Competition = {
-          id,
-          date: dateText,
-          title,
-          place,
-          organiser,
-          deadline,
-          categories,
-          url: url.startsWith("http") ? url : `${BASE_URL}/${url}`,
-        };
+          // Extract organizer (third strong element)
+          let organizer = "";
+          if (strongElements.length > 2) {
+            organizer = $(strongElements[2]).text().trim();
+            // Remove label prefix entirely
+            organizer = organizer.replace(/^.*?: /, "");
+          }
 
-        competitions.push(competitionData);
+          // Extract deadline (fourth strong element)
+          let deadline = "";
+          if (strongElements.length > 3) {
+            deadline = $(strongElements[3]).text().trim();
+            // Remove label prefix entirely
+            deadline = deadline.replace(/^.*?: /, "");
+          }
+
+          // Extract categories
+          const categories: Category[] = [];
+
+          // The categories are listed in the text after the last strong element
+          // They're separated by commas
+          const contentText = detailsCell.text();
+
+          // Find the text after "Nevezési határidő"
+          const afterDeadlineText = contentText.split(deadline)[1];
+          if (afterDeadlineText) {
+            // Get the text before the "Nevezések" or "Információk" link
+            const categoriesText = afterDeadlineText
+              .split(/Nevezések|Információk/)[0]
+              .trim();
+
+            if (categoriesText) {
+              // Split by commas and clean up
+              const categoryList = categoriesText
+                .replace(/\s+/g, " ")
+                .split(",");
+              categoryList.forEach((cat) => {
+                const catTrimmed = cat.trim();
+                if (
+                  catTrimmed &&
+                  !catTrimmed.includes("<br>") &&
+                  catTrimmed !== "," &&
+                  catTrimmed !== ""
+                ) {
+                  categories.push({
+                    name: catTrimmed,
+                    url: "",
+                  });
+                }
+              });
+            }
+          }
+
+          // Extract URL from the "Információk" link
+          let url = "";
+          const infoLinkMatch = detailsCell
+            .html()
+            ?.match(/javascript: ukazProp\((\d+)\)/);
+          if (infoLinkMatch && infoLinkMatch[1]) {
+            url = `https://ksis.szts.sk/mtasz/prop.php?id_prop=${infoLinkMatch[1]}`;
+          }
+
+          // Create competition object
+          const competition: Competition = {
+            date: dateText,
+            title,
+            location,
+            categories,
+            url,
+            organizer,
+            deadline,
+            exactLocation: location,
+          };
+
+          console.log(`Added competition: ${title} on ${dateText}`);
+          competitions.push(competition);
+        });
+
+      // Add month data to result if competitions were found
+      if (competitions.length > 0) {
+        result.months.push({
+          name: monthHeader,
+          competitions,
+        });
+        console.log(
+          `Added month ${monthHeader} with ${competitions.length} competitions`
+        );
+      } else {
+        console.log(`No competitions found for month ${monthHeader}`);
       }
     });
 
-    // If no data was found, return an error
-    if (competitions.length === 0) {
-      console.error("No competition data found from KSIS API");
-      return NextResponse.json(
-        { error: "No competition data available", months: [] },
-        { status: 404 }
+    console.log(`Total months processed: ${result.months.length}`);
+
+    // If no competitions were found, log an error
+    if (result.months.length === 0) {
+      console.log("No competitions found. HTML structure may have changed.");
+
+      // Log some debug info about the HTML structure
+      console.log(
+        `Total panel elements found: ${$(".panel.panel-primary").length}`
       );
+      console.log(`Total table elements found: ${$("table.table").length}`);
+
+      // Try to find if there are any tables at all
+      console.log(`Any tables found: ${$("table").length}`);
+
+      // Return empty result with debug info
+      return NextResponse.json({
+        months: [],
+        debug: {
+          panelsFound: $(".panel.panel-primary").length,
+          tablesFound: $("table.table").length,
+          anyTablesFound: $("table").length,
+        },
+      });
     }
 
-    // Group competitions by month before sending the response
-    const months = groupCompetitionsByMonth(competitions);
-    const result: ApiResponse = { months };
-
+    // Return the parsed data
     return NextResponse.json(result);
   } catch (error) {
-    console.error("Error fetching competition data:", error);
+    console.error("Error scraping competition data:", error);
     return NextResponse.json(
-      { error: "Failed to fetch competition data", months: [] },
+      {
+        error: "Failed to fetch competition data",
+        details: (error as Error).message,
+      },
       { status: 500 }
     );
   }
