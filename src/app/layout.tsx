@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import ClientLayout from "./ClientLayout";
+import { PostHogProvider } from "@/components/PostHogProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,17 +22,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <LanguageProvider>
-          <ClientLayout>{children}</ClientLayout>
-        </LanguageProvider>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <PostHogProvider>
+          <LanguageProvider>
+            <ClientLayout>{children}</ClientLayout>
+          </LanguageProvider>
+        </PostHogProvider>
       </body>
     </html>
   );
