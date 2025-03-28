@@ -12,6 +12,9 @@ type Competition = {
   location: string;
   categories: Category[];
   url: string;
+  organizer?: string;
+  deadline?: string;
+  exactLocation?: string;
 };
 
 type MonthSectionProps = {
@@ -40,6 +43,9 @@ const MonthSection = ({ name, competitions }: MonthSectionProps) => {
               location={competition.location}
               categories={competition.categories}
               url={competition.url}
+              organizer={competition.organizer}
+              deadline={competition.deadline}
+              exactLocation={competition.exactLocation}
             />
           ))}
         </div>

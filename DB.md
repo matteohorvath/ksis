@@ -30,6 +30,15 @@ GET /podujatie.php?pod_id={id}
 - Parameters: `id` (1-370)
 - Returns: HTML with details for the specified competition
 
+### Competition Participants
+
+```
+GET /zoznam_prihl.php?id_prop={id}
+```
+
+- Parameters: `id_prop` (competition ID)
+- Returns: HTML with registered participants for the specified competition, grouped by dance categories
+
 ### Upcoming Competitions
 
 ```
@@ -79,26 +88,51 @@ From yearly listings:
 - Place: Third `<strong>` tag, split by ":" to get value
 - Deadline: Fourth `<strong>` tag, split by ":" to get date value
 
+### Competition Participants
+
+- Competition title and date: Found in H3 heading
+- Venue location: Found after the H3 heading
+- Participants count: Found in paragraph text (e.g., "Párosok száma...")
+- Categories: Each dance category has its own table with headers
+- Participants: Each table contains columns for:
+  - Number/Rank
+  - Participant names (usually in format "Name1 - Name2" for couples)
+  - Club/Organization 
+  - Country (optional)
+
 ## Database Schema
 
 Based on the parsing code, the following schema is used:
 
 ```prisma
 model Competition {
-  id        Int       @id @default(autoincrement())
-  date      DateTime
-  title     String
-  place     String
-  organiser String
-  deadline  DateTime
-  categories Category[]
+  id           Int           @id @default(autoincrement())
+  date         DateTime
+  title        String
+  place        String
+  organiser    String
+  deadline     DateTime
+  categories   Category[]
+  participants Participant[]
 }
 
 model Category {
-  id             Int         @id @default(autoincrement())
+  id             Int           @id @default(autoincrement())
   name           String
   competition_id Int
+  competition    Competition   @relation(fields: [competition_id], references: [id])
+  participants   Participant[]
+}
+
+model Participant {
+  id             Int         @id @default(autoincrement())
+  names          String      // Usually in format "Name1 - Name2" for couples
+  organization   String
+  country        String?
+  competition_id Int
+  category_id    Int
   competition    Competition @relation(fields: [competition_id], references: [id])
+  category       Category    @relation(fields: [category_id], references: [id])
 }
 ```
 

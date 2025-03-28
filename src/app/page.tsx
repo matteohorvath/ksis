@@ -14,6 +14,9 @@ type Competition = {
   location: string;
   categories: Category[];
   url: string;
+  organizer?: string;
+  deadline?: string;
+  exactLocation?: string;
 };
 
 type Month = {
@@ -89,10 +92,11 @@ export default function Home() {
       <main className="container mx-auto px-4 py-8">
         <section className="mb-8">
           <h2 className="text-2xl font-bold text-blue-900 mb-4">
-            Competition Results
+            Competition Calendar
           </h2>
           <p className="text-gray-600 mb-6">
-            View upcoming and past dance competitions organized by KSIS MTASZ.
+            View past dance competitions organized by KSIS MTASZ. Future events
+            will be displayed without links until their pages are available.
           </p>
 
           {isLoading && (
