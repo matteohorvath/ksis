@@ -1,4 +1,5 @@
 import React from "react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 type Category = {
   name: string;
@@ -26,6 +27,8 @@ const CompetitionCard = ({
   deadline,
   exactLocation,
 }: CompetitionCardProps) => {
+  const { t } = useLanguage();
+
   // Check if event is in the future to disable links
   const isFutureEvent = () => {
     const [year, month, day] = date.split(".").map(Number);
@@ -63,11 +66,15 @@ const CompetitionCard = ({
           onClick={isInFuture ? undefined : handleClick}
           onKeyDown={isInFuture ? undefined : handleKeyDown}
           tabIndex={isInFuture ? -1 : 0}
-          aria-label={`Competition: ${title}${isInFuture ? " (upcoming)" : ""}`}
+          aria-label={`Competition: ${title}${
+            isInFuture ? ` (${t("components.competitionCard.upcoming")})` : ""
+          }`}
         >
           {title}{" "}
           {isInFuture && (
-            <span className="text-sm font-normal">(upcoming)</span>
+            <span className="text-sm font-normal">
+              ({t("components.competitionCard.upcoming")})
+            </span>
           )}
         </h3>
         <span className="font-semibold text-gray-700">{date}</span>
@@ -75,7 +82,9 @@ const CompetitionCard = ({
 
       {location && (
         <div className="mb-3 text-gray-600">
-          <span className="font-medium">Location: </span>
+          <span className="font-medium">
+            {t("components.competitionCard.location")}{" "}
+          </span>
           {location}
         </div>
       )}
@@ -85,21 +94,27 @@ const CompetitionCard = ({
         <div className="space-y-3 mt-3 border-t border-gray-100 pt-3">
           {organizer && (
             <div className="text-gray-600">
-              <span className="font-medium">Organizer: </span>
+              <span className="font-medium">
+                {t("components.competitionCard.organizer")}{" "}
+              </span>
               {organizer}
             </div>
           )}
 
           {exactLocation && (
             <div className="text-gray-600">
-              <span className="font-medium">Exact Location: </span>
+              <span className="font-medium">
+                {t("components.competitionCard.exactLocation")}{" "}
+              </span>
               {exactLocation}
             </div>
           )}
 
           {deadline && (
             <div className="text-gray-600">
-              <span className="font-medium">Registration Deadline: </span>
+              <span className="font-medium">
+                {t("components.competitionCard.registrationDeadline")}{" "}
+              </span>
               <span className="text-red-600 font-semibold">{deadline}</span>
             </div>
           )}
@@ -108,7 +123,9 @@ const CompetitionCard = ({
 
       {categories.length > 0 && (
         <div className="mt-3">
-          <h4 className="font-medium text-gray-700 mb-2">Categories:</h4>
+          <h4 className="font-medium text-gray-700 mb-2">
+            {t("components.competitionCard.categories")}
+          </h4>
           <div
             className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 ${
               isInFuture ? "mb-2" : ""
@@ -122,7 +139,11 @@ const CompetitionCard = ({
                 >
                   <span
                     className="bg-green-100 text-green-700 px-3 py-2 text-sm font-medium truncate"
-                    aria-label={`Category: ${category.name} (available to join)`}
+                    aria-label={`${t(
+                      "components.competitionCard.categories"
+                    )} ${category.name} (${t(
+                      "components.competitionCard.upcoming"
+                    )})`}
                     title={category.name}
                   >
                     {category.name}
@@ -133,7 +154,7 @@ const CompetitionCard = ({
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Register Now
+                    {t("components.competitionCard.registerNow")}
                   </a>
                 </div>
               ) : (
@@ -144,7 +165,9 @@ const CompetitionCard = ({
                   target="_blank"
                   rel="noopener noreferrer"
                   tabIndex={0}
-                  aria-label={`Category: ${category.name}`}
+                  aria-label={`${t("components.competitionCard.categories")} ${
+                    category.name
+                  }`}
                   title={category.name}
                 >
                   {category.name}
@@ -154,7 +177,7 @@ const CompetitionCard = ({
           </div>
           {isInFuture && (
             <p className="text-sm text-gray-500 italic mt-1">
-              Direct registration links for all categories are available above
+              {t("components.competitionCard.registrationLinks")}
             </p>
           )}
         </div>

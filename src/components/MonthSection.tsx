@@ -1,5 +1,6 @@
 import React from "react";
 import CompetitionCard from "./CompetitionCard";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 type Category = {
   name: string;
@@ -23,6 +24,8 @@ type MonthSectionProps = {
 };
 
 const MonthSection = ({ name, competitions }: MonthSectionProps) => {
+  const { t } = useLanguage();
+
   return (
     <section className="mb-8">
       <h2 className="text-2xl font-bold text-blue-900 mb-4 pb-2 border-b border-gray-200">
@@ -31,7 +34,7 @@ const MonthSection = ({ name, competitions }: MonthSectionProps) => {
 
       {competitions.length === 0 ? (
         <p className="text-gray-500 italic">
-          No competitions scheduled for this month.
+          {t("components.monthSection.noCompetitions")}
         </p>
       ) : (
         <div className="space-y-4">
