@@ -92,9 +92,9 @@ export async function GET(request: Request) {
 
       // If we have valid parts, create a competition entry
       if (parts.length > 0) {
-        let name = parts[0] || "";
-        let location = parts.length > 1 ? parts[1] : "";
-        let date = parts.length > 2 ? parts[2] : "";
+        const name = parts[0] || "";
+        const location = parts.length > 1 ? parts[1] : "";
+        const date = parts.length > 2 ? parts[2] : "";
 
         competitions.push({
           name,
