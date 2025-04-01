@@ -1,0 +1,6 @@
+---
+description: Add language support when adding text
+globs: 
+alwaysApply: false
+---
+Whenever adding text, create all translations for it in the [hu.json](mdc:src/i18n/translations/hu.json) and [en.json](mdc:src/i18n/translations/en.json) files.

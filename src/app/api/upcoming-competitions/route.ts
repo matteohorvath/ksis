@@ -85,11 +85,13 @@ export async function GET() {
 
             // Get location
             const locationElem = detailsCell.find("strong").eq(1);
-            const location = locationElem.text().trim();
+            const location = locationElem.text().trim().split(":")[1];
 
             // Get organizer
             const organizerElem = detailsCell.find("strong").eq(2);
-            const organizer = organizerElem ? organizerElem.text().trim() : "";
+            const organizer = organizerElem
+              ? organizerElem.text().trim().split(":")[1]
+              : "";
 
             // Get deadline
             const deadlineRegex = /Nevezési határidő:\s*([\d\.]+)/;
