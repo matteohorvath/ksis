@@ -196,10 +196,13 @@ export async function GET(request: Request) {
     };
 
     return NextResponse.json(result);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error scraping ranking data:", error);
     return NextResponse.json(
-      { error: "Failed to fetch rankings data", message: error.message },
+      {
+        error: "Failed to fetch rankings data",
+        message: error instanceof Error ? error.message : String(error),
+      },
       { status: 500 }
     );
   }
