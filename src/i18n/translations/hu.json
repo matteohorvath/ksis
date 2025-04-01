@@ -5,7 +5,8 @@
   },
   "navigation": {
     "upcomingCompetitions": "Közelgő Versenyek",
-    "previousCompetitions": "Korábbi Versenyek"
+    "previousCompetitions": "Korábbi Versenyek",
+    "rankings": "Ranglista"
   },
   "main": {
     "calendar": {
@@ -42,5 +43,34 @@
       "registerNow": "Nevezés",
       "registrationLinks": "A kategóriák közvetlen nevezési linkjei fent találhatók"
     }
+  },
+  "rankings": {
+    "date": "Dátum",
+    "ageGroup": "Korosztály",
+    "danceType": "Táncnem",
+    "filter": "Szűrés",
+    "position": "Helyezés",
+    "dancer": "Táncos / Klub",
+    "homelandWDSF": "Hazai WDSF verseny",
+    "nationalChampionship": "Országos Bajnokság",
+    "points": "Pontok",
+    "competitionResults": "Versenyeredmények",
+    "ageGroups": {
+      "FLN": "Felnőtt",
+      "IFI": "Ifjúsági",
+      "JN1": "Junior I",
+      "JN2": "Junior II",
+      "SE1": "Senior I",
+      "SE2": "Senior II",
+      "SE3": "Senior III",
+      "SE4": "Senior IV",
+      "PD": "Profi"
+    },
+    "danceTypes": {
+      "S": "Standard",
+      "L": "Latin",
+      "T": "10 Tánc"
+    },
+    "dataSource": "Adatok forrása"
   }
 }

@@ -46,6 +46,18 @@ const Navbar = () => {
               >
                 {t("navigation.previousCompetitions")}
               </Link>
+              <Link
+                href="/rankings"
+                className={`py-2 px-3 rounded transition-colors ${
+                  isActive("/rankings")
+                    ? "bg-blue-700 text-white"
+                    : "text-blue-100 hover:bg-blue-800"
+                }`}
+                tabIndex={0}
+                aria-label={t("navigation.rankings")}
+              >
+                {t("navigation.rankings")}
+              </Link>
             </div>
             <LanguageSwitcher />
           </div>
@@ -76,6 +88,18 @@ const Navbar = () => {
             aria-label={t("navigation.previousCompetitions")}
           >
             {t("navigation.previousCompetitions")}
+          </Link>
+          <Link
+            href="/rankings"
+            className={`flex-1 text-center py-2 px-3 rounded transition-colors ${
+              isActive("/rankings")
+                ? "bg-blue-700 text-white"
+                : "text-blue-100 hover:bg-blue-800"
+            }`}
+            tabIndex={0}
+            aria-label={t("navigation.rankings")}
+          >
+            {t("navigation.rankings")}
           </Link>
         </div>
       </div>

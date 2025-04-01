@@ -5,7 +5,8 @@
   },
   "navigation": {
     "upcomingCompetitions": "Upcoming Competitions",
-    "previousCompetitions": "Previous Competitions"
+    "previousCompetitions": "Previous Competitions",
+    "rankings": "Rankings"
   },
   "main": {
     "calendar": {
@@ -42,5 +43,34 @@
       "registerNow": "Register Now",
       "registrationLinks": "Direct registration links for all categories are available above"
     }
+  },
+  "rankings": {
+    "date": "Date",
+    "ageGroup": "Age Group",
+    "danceType": "Dance Type",
+    "filter": "Filter",
+    "position": "Position",
+    "dancer": "Dancer / Club",
+    "homelandWDSF": "Homeland WDSF Competition",
+    "nationalChampionship": "National Championship",
+    "points": "Points",
+    "competitionResults": "Competition Results",
+    "ageGroups": {
+      "FLN": "Adult",
+      "IFI": "Youth",
+      "JN1": "Junior I",
+      "JN2": "Junior II",
+      "SE1": "Senior I",
+      "SE2": "Senior II",
+      "SE3": "Senior III",
+      "SE4": "Senior IV",
+      "PD": "Professional"
+    },
+    "danceTypes": {
+      "S": "Standard",
+      "L": "Latin",
+      "T": "10 Dance"
+    },
+    "dataSource": "Data sourced from"
   }
 }
