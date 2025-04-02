@@ -14,8 +14,10 @@ type Competition = {
   location: string;
   categories: Category[];
   url: string;
+  id?: string;
   organizer?: string;
   deadline?: string;
+  information?: string;
 };
 
 type MonthSectionProps = {
@@ -58,6 +60,8 @@ const MonthSection = ({ name, competitions }: MonthSectionProps) => {
                 url={competition.url}
                 organizer={competition.organizer}
                 deadline={competition.deadline}
+                id={competition.id}
+                information={competition.information}
               />
             ) : (
               <PreviousCompetitionCard

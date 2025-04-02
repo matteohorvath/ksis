@@ -6,7 +6,8 @@
   "navigation": {
     "upcomingCompetitions": "Közelgő Versenyek",
     "previousCompetitions": "Korábbi Versenyek",
-    "rankings": "Ranglista"
+    "rankings": "Ranglista",
+    "back": "Vissza a Versenyekhez"
   },
   "main": {
     "calendar": {
@@ -40,9 +41,29 @@
       "deadline": "Nevezési határidő:",
       "categories": "Kategóriák:",
       "viewDetails": "Részletek",
+      "viewParticipants": "Nevezések Megtekintése",
       "registerNow": "Nevezés",
-      "registrationLinks": "A kategóriák közvetlen nevezési linkjei fent találhatók"
+      "registrationLinks": "A kategóriák közvetlen nevezési linkjei fent találhatók",
+      "information": "Információk",
+      "responsibleOrganization": "Versenyért felelős tagszervezet",
+      "representative": "Tagszervezet képviselője",
+      "venueCapacity": "Befogadó képesség",
+      "danceFloorSize": "Tánctér mérete",
+      "danceFloorSurface": "Tánctér burkolata",
+      "entranceFee": "Belépőjegy",
+      "awards": "Díjazás",
+      "notes": "Megjegyzések",
+      "infoNotAvailable": "Az információ nem elérhető.",
+      "showInfo": "Információk mutatása",
+      "hideInfo": "Információk elrejtése"
     }
+  },
+  "participants": {
+    "title": "Nevezések",
+    "name": "Név",
+    "club": "Klub",
+    "country": "Ország",
+    "noIdProvided": "Nincs verseny azonosító megadva. Kérjük, válasszon egy versenyt a naptárból."
   },
   "rankings": {
     "date": "Dátum",

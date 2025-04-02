@@ -6,7 +6,8 @@
   "navigation": {
     "upcomingCompetitions": "Upcoming Competitions",
     "previousCompetitions": "Previous Competitions",
-    "rankings": "Rankings"
+    "rankings": "Rankings",
+    "back": "Back to Competitions"
   },
   "main": {
     "calendar": {
@@ -40,9 +41,29 @@
       "deadline": "Registration Deadline:",
       "categories": "Categories:",
       "viewDetails": "View Details",
+      "viewParticipants": "View Participants",
       "registerNow": "Register Now",
-      "registrationLinks": "Direct registration links for all categories are available above"
+      "registrationLinks": "Direct registration links for all categories are available above",
+      "information": "Information",
+      "responsibleOrganization": "Organization Responsible for Competition",
+      "representative": "Organization Representative",
+      "venueCapacity": "Venue Capacity",
+      "danceFloorSize": "Dance Floor Size",
+      "danceFloorSurface": "Dance Floor Surface",
+      "entranceFee": "Entrance Fee",
+      "awards": "Awards",
+      "notes": "Notes",
+      "infoNotAvailable": "Information not available.",
+      "showInfo": "Show Information",
+      "hideInfo": "Hide Information"
     }
+  },
+  "participants": {
+    "title": "Participants",
+    "name": "Name",
+    "club": "Club",
+    "country": "Country",
+    "noIdProvided": "No competition ID provided. Please select a competition from the calendar."
   },
   "rankings": {
     "date": "Date",
