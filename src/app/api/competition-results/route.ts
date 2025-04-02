@@ -79,22 +79,41 @@ async function fetchCompetitionResults(
   const html = await response.text();
   const $ = cheerio.load(html);
 
-  // Extract title and date
+  // Extract title and date with a more robust approach
   let title = "";
   let date = "";
 
   // The title and date are in the h3 tag
-  const h3Content = $("h3").html();
-  if (h3Content) {
-    // Split by <small> which contains the date
-    const parts = h3Content.split("<small>");
-    title = $(parts[0]).text().trim();
+  const h3Element = $("h3").first();
 
-    if (parts.length > 1) {
-      // Extract date from <small> tag content
-      const dateMatch = parts[1].match(/<b>([^<]+)<\/b>/);
-      if (dateMatch && dateMatch[1]) {
-        date = dateMatch[1].trim();
+  if (h3Element.length) {
+    // Get all text content first (includes both title and date)
+    const fullText = h3Element.text().trim();
+
+    // Try to find the date part, which is often in bold and parentheses
+    const dateMatch = fullText.match(/\(([^)]+)\)/);
+
+    if (dateMatch && dateMatch[1]) {
+      date = dateMatch[1].trim();
+      // Remove the date part to get just the title
+      title = fullText.replace(/\s*\([^)]+\)\s*$/, "").trim();
+    } else {
+      // If no date in parentheses, just use the whole text as title
+      title = fullText;
+    }
+
+    // If we failed to get the title, try another approach
+    if (!title && h3Element.html()) {
+      // This is a fallback for the original approach
+      const h3Content = h3Element.html() || "";
+      const parts = h3Content.split("<small>");
+      if (parts.length > 0) {
+        try {
+          title = $(parts[0]).text().trim();
+        } catch {
+          // If this fails, just use the raw text
+          title = parts[0].replace(/<[^>]*>/g, "").trim();
+        }
       }
     }
   }

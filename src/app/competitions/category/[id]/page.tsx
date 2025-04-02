@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useLanguage } from "@/i18n/LanguageContext";
 import Navbar from "@/components/Navbar";
+import Link from "next/link";
 
 type Judge = {
   name: string;
@@ -376,14 +377,14 @@ export default function CategoryDetailPage() {
                                       </td>
                                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                         {result.profileLink ? (
-                                          <a
-                                            href={`https://ksis.szts.sk/mtasz/${result.profileLink}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
+                                          <Link
+                                            href={`/participants/${
+                                              result.profileLink.split("=")[1]
+                                            }`}
                                             className="text-blue-600 hover:text-blue-800 hover:underline"
                                           >
                                             {result.name}
-                                          </a>
+                                          </Link>
                                         ) : (
                                           result.name
                                         )}
@@ -425,14 +426,14 @@ export default function CategoryDetailPage() {
                           {data.judges.map((judge, index) => (
                             <li key={index} className="text-gray-700">
                               {judge.link ? (
-                                <a
-                                  href={`https://ksis.szts.sk/mtasz/${judge.link}`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
+                                <Link
+                                  href={`/participants/${
+                                    judge.link.split("=")[1]
+                                  }`}
                                   className="text-blue-600 hover:text-blue-800 hover:underline"
                                 >
                                   {judge.name}
-                                </a>
+                                </Link>
                               ) : (
                                 judge.name
                               )}{" "}
