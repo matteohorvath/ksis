@@ -12,6 +12,7 @@ type Competition = {
   location: string;
   categories: Category[];
   url: string;
+  id?: string;
   organizer?: string;
   deadline?: string;
   exactLocation?: string;
@@ -145,6 +146,19 @@ export async function GET() {
               });
             }
 
+            // Extract competition ID from the enrollment link
+            let competitionId = "";
+            const enrollmentLink = detailsCell.find(
+              'a[href*="zoznam_prihl.php"]'
+            );
+            if (enrollmentLink.length) {
+              const href = enrollmentLink.attr("href") || "";
+              const idMatch = href.match(/id_prop=(\d+)/);
+              if (idMatch && idMatch[1]) {
+                competitionId = idMatch[1];
+              }
+            }
+
             // Create competition object
             const competition: Competition = {
               date: dateText,
@@ -155,6 +169,7 @@ export async function GET() {
               organizer,
               deadline,
               exactLocation: location,
+              id: competitionId,
             };
 
             competitions.push(competition);

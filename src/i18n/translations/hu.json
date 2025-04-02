@@ -6,7 +6,8 @@
   "navigation": {
     "upcomingCompetitions": "Közelgő Versenyek",
     "previousCompetitions": "Korábbi Versenyek",
-    "rankings": "Ranglista"
+    "rankings": "Ranglista",
+    "back": "Vissza a Versenyekhez"
   },
   "main": {
     "calendar": {
@@ -40,9 +41,55 @@
       "deadline": "Nevezési határidő:",
       "categories": "Kategóriák:",
       "viewDetails": "Részletek",
+      "viewParticipants": "Nevezések Megtekintése",
       "registerNow": "Nevezés",
-      "registrationLinks": "A kategóriák közvetlen nevezési linkjei fent találhatók"
+      "registrationLinks": "A kategóriák közvetlen nevezési linkjei fent találhatók",
+      "information": "Információk",
+      "responsibleOrganization": "Versenyért felelős tagszervezet",
+      "representative": "Tagszervezet képviselője",
+      "venueCapacity": "Befogadó képesség",
+      "danceFloorSize": "Tánctér mérete",
+      "danceFloorSurface": "Tánctér burkolata",
+      "entranceFee": "Belépőjegy",
+      "awards": "Díjazás",
+      "notes": "Megjegyzések",
+      "infoNotAvailable": "Az információ nem elérhető.",
+      "showInfo": "Információk mutatása",
+      "hideInfo": "Információk elrejtése"
     }
+  },
+  "participants": {
+    "title": "Nevezések",
+    "name": "Név",
+    "club": "Klub",
+    "country": "Ország",
+    "noIdProvided": "Nincs verseny azonosító megadva. Kérjük, válasszon egy versenyt a naptárból."
+  },
+  "competition": {
+    "date": "Dátum",
+    "location": "Helyszín",
+    "organizer": "Rendező",
+    "organizerRepresentative": "Szervező képviselője",
+    "type": "Típus",
+    "participantCount": "Párok száma",
+    "commissioner": "Döntnök",
+    "supervisor": "Versenyfelügyelő",
+    "announcer": "Műsorvezető",
+    "results": "Eredmények",
+    "judges": "Pontozók",
+    "scoringJudges": "Pontozóbírók",
+    "counters": "Számlálók",
+    "position": "Helyezés",
+    "number": "Rajtszám",
+    "name": "Név",
+    "club": "Egyesület",
+    "noResults": "Ehhez a versenyhez nem állnak rendelkezésre eredmények.",
+    "noJudges": "Ehhez a versenyhez nem állnak rendelkezésre pontozói információk.",
+    "otherResults": "Eredmények",
+    "marks": "X-ek",
+    "skating": "Skating",
+    "noMarks": "Ehhez a versenyhez nem állnak rendelkezésre pontozói X-ek.",
+    "noSkating": "Ehhez a versenyhez nem állnak rendelkezésre skating információk."
   },
   "rankings": {
     "date": "Dátum",

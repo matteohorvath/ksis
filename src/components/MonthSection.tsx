@@ -14,8 +14,10 @@ type Competition = {
   location: string;
   categories: Category[];
   url: string;
+  id?: string;
   organizer?: string;
   deadline?: string;
+  information?: string;
 };
 
 type MonthSectionProps = {
@@ -46,18 +48,18 @@ const MonthSection = ({ name, competitions }: MonthSectionProps) => {
       ) : (
         <div className="space-y-4">
           {competitions.map((competition, index) => {
-            const categoryNames = competition.categories.map((cat) => cat.name);
-
             return isUpcomingCompetition(competition) ? (
               <UpcomingCompetitionCard
                 key={`comp-${index}`}
                 date={competition.date}
                 title={competition.title}
                 location={competition.location}
-                categories={categoryNames}
+                categories={competition.categories.map((cat) => cat.name)}
                 url={competition.url}
                 organizer={competition.organizer}
                 deadline={competition.deadline}
+                id={competition.id}
+                information={competition.information}
               />
             ) : (
               <PreviousCompetitionCard
@@ -65,7 +67,7 @@ const MonthSection = ({ name, competitions }: MonthSectionProps) => {
                 date={competition.date}
                 title={competition.title}
                 location={competition.location}
-                categories={categoryNames}
+                categories={competition.categories}
                 url={competition.url}
               />
             );

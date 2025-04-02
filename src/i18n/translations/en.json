@@ -6,7 +6,8 @@
   "navigation": {
     "upcomingCompetitions": "Upcoming Competitions",
     "previousCompetitions": "Previous Competitions",
-    "rankings": "Rankings"
+    "rankings": "Rankings",
+    "back": "Back to Competitions"
   },
   "main": {
     "calendar": {
@@ -40,9 +41,55 @@
       "deadline": "Registration Deadline:",
       "categories": "Categories:",
       "viewDetails": "View Details",
+      "viewParticipants": "View Participants",
       "registerNow": "Register Now",
-      "registrationLinks": "Direct registration links for all categories are available above"
+      "registrationLinks": "Direct registration links for all categories are available above",
+      "information": "Information",
+      "responsibleOrganization": "Organization Responsible for Competition",
+      "representative": "Organization Representative",
+      "venueCapacity": "Venue Capacity",
+      "danceFloorSize": "Dance Floor Size",
+      "danceFloorSurface": "Dance Floor Surface",
+      "entranceFee": "Entrance Fee",
+      "awards": "Awards",
+      "notes": "Notes",
+      "infoNotAvailable": "Information not available.",
+      "showInfo": "Show Information",
+      "hideInfo": "Hide Information"
     }
+  },
+  "participants": {
+    "title": "Participants",
+    "name": "Name",
+    "club": "Club",
+    "country": "Country",
+    "noIdProvided": "No competition ID provided. Please select a competition from the calendar."
+  },
+  "competition": {
+    "date": "Date",
+    "location": "Location",
+    "organizer": "Organizer",
+    "organizerRepresentative": "Organizer Representative",
+    "type": "Type",
+    "participantCount": "Number of Participants",
+    "commissioner": "Commissioner",
+    "supervisor": "Supervisor",
+    "announcer": "Announcer",
+    "results": "Results",
+    "judges": "Judges",
+    "scoringJudges": "Scoring Judges",
+    "counters": "Counters",
+    "position": "Position",
+    "number": "Number",
+    "name": "Name",
+    "club": "Club",
+    "noResults": "No results are available for this competition.",
+    "noJudges": "No judge information is available for this competition.",
+    "otherResults": "Results",
+    "marks": "X-ek",
+    "skating": "Skating",
+    "noMarks": "No marks (X-ek) are available for this competition.",
+    "noSkating": "No skating information is available for this competition."
   },
   "rankings": {
     "date": "Date",

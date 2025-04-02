@@ -16,8 +16,10 @@ type Competition = {
   location: string;
   categories: Category[];
   url: string;
+  id?: string;
   organizer?: string;
   deadline?: string;
+  information?: string;
 };
 
 type Month = {
