@@ -1,12 +1,18 @@
 import React from "react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import Link from "next/link";
+
+type Category = {
+  name: string;
+  url: string;
+};
 
 type PreviousCompetitionCardProps = {
   date: string;
   title: string;
   location: string;
-  categories: string[];
-  url: string;
+  categories: Category[];
+  url: string; // Still needed for potential future functionality and categories
 };
 
 const PreviousCompetitionCard = ({
@@ -14,7 +20,7 @@ const PreviousCompetitionCard = ({
   title,
   location,
   categories,
-  url,
+  url, // Keeping for categories functionality
 }: PreviousCompetitionCardProps) => {
   const { t } = useLanguage();
 
@@ -27,34 +33,21 @@ const PreviousCompetitionCard = ({
 
   const isInFuture = isFutureEvent();
 
-  const handleClick = () => {
-    if (isInFuture) return; // Don't open links for future events
-    window.open(url, "_blank", "noopener,noreferrer");
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (isInFuture) return; // Don't handle keydown for future events
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      handleClick();
-    }
+  // Helper function to extract ID from URL
+  const extractCategoryId = (url: string): string => {
+    const idMatch = url.match(/sutaz_id=(\d+)/);
+    return idMatch ? idMatch[1] : "";
   };
 
   return (
     <div
       className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow duration-300 bg-white mb-4"
       data-testid="competition-card"
+      data-competition-url={url}
     >
       <div className="flex flex-col md:flex-row justify-between mb-2">
         <h3
-          className={`text-xl font-bold ${
-            isInFuture
-              ? "text-gray-600"
-              : "text-blue-800 cursor-pointer hover:underline"
-          }`}
-          onClick={isInFuture ? undefined : handleClick}
-          onKeyDown={isInFuture ? undefined : handleKeyDown}
-          tabIndex={isInFuture ? -1 : 0}
+          className="text-xl font-bold text-blue-800"
           aria-label={`Competition: ${title}${
             isInFuture ? ` (${t("components.competitionCard.upcoming")})` : ""
           }`}
@@ -85,14 +78,28 @@ const PreviousCompetitionCard = ({
             {t("components.competitionCard.categories")}
           </h4>
           <div className="flex flex-wrap gap-2">
-            {categories.map((category, index) => (
-              <span
-                key={index}
-                className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-md text-sm"
-              >
-                {category}
-              </span>
-            ))}
+            {categories.map((category, index) => {
+              const categoryId = extractCategoryId(category.url);
+              return categoryId ? (
+                <Link
+                  key={index}
+                  href={`/competitions/category/${categoryId}`}
+                  className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-md text-sm hover:bg-blue-200 transition-colors"
+                >
+                  {category.name}
+                </Link>
+              ) : (
+                <a
+                  key={index}
+                  href={category.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-blue-100 text-blue-700 px-3 py-1 rounded-md text-sm hover:bg-blue-200 transition-colors"
+                >
+                  {category.name}
+                </a>
+              );
+            })}
           </div>
         </div>
       )}

@@ -52,27 +52,8 @@ export default function PreviousCompetitions() {
 
         const result = await response.json();
 
-        // Transform categories from string[] to Category[]
-        const transformedData: MonthlyCompetitions = {};
-        Object.keys(result).forEach((month) => {
-          transformedData[month] = result[month].map(
-            (comp: {
-              date: string;
-              title: string;
-              location: string;
-              categories: string[];
-              url: string;
-            }) => ({
-              ...comp,
-              categories: comp.categories.map((cat: string) => ({
-                name: cat,
-                url: "#", // Default URL as it's not available in the API
-              })),
-            })
-          );
-        });
-
-        setData(transformedData);
+        // The API now returns categories as objects with name and url
+        setData(result);
       } catch (err) {
         setError(t("main.error.message"));
         console.error("Error fetching data:", err);
@@ -100,27 +81,8 @@ export default function PreviousCompetitions() {
         return response.json();
       })
       .then((result) => {
-        // Transform categories from string[] to Category[]
-        const transformedData: MonthlyCompetitions = {};
-        Object.keys(result).forEach((month) => {
-          transformedData[month] = result[month].map(
-            (comp: {
-              date: string;
-              title: string;
-              location: string;
-              categories: string[];
-              url: string;
-            }) => ({
-              ...comp,
-              categories: comp.categories.map((cat: string) => ({
-                name: cat,
-                url: "#", // Default URL as it's not available in the API
-              })),
-            })
-          );
-        });
-
-        setData(transformedData);
+        // The API now returns categories as objects with name and url
+        setData(result);
         setIsLoading(false);
       })
       .catch((err) => {

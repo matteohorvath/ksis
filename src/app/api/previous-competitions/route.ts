@@ -1,11 +1,16 @@
 import { NextResponse } from "next/server";
 import * as cheerio from "cheerio";
 
+type Category = {
+  name: string;
+  url: string;
+};
+
 type Competition = {
   date: string;
   title: string;
   location: string;
-  categories: string[];
+  categories: Category[];
   url: string;
 };
 
@@ -70,9 +75,19 @@ export async function GET(request: Request) {
         const location = locationText.replace(/^Helyszín: /, "").trim();
 
         // Extract categories from all sut_pod links
-        const categories: string[] = [];
+        const categories: Category[] = [];
         contentCell.find("a.sut_pod").each((_, categoryElement) => {
-          categories.push($(categoryElement).text().trim());
+          const categoryElement$ = $(categoryElement);
+          const categoryName = categoryElement$.text().trim();
+          const categoryRelativeUrl = categoryElement$.attr("href") || "";
+          const categoryUrl = categoryRelativeUrl
+            ? `https://ksis.szts.sk/mtasz/${categoryRelativeUrl}`
+            : "#";
+
+          categories.push({
+            name: categoryName,
+            url: categoryUrl,
+          });
         });
 
         if (date && title) {
