@@ -35,7 +35,7 @@ const Navbar = () => {
                 {t("navigation.upcomingCompetitions")}
               </Link>
               <Link
-                href="/competitions/previous"
+                href={`/competitions/previous/${new Date().getFullYear()}`}
                 className={`py-2 px-3 rounded transition-colors ${
                   isActive("/competitions/previous")
                     ? "bg-blue-700 text-white"
