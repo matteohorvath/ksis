@@ -84,7 +84,6 @@ export async function GET(request: Request) {
           const categoryUrl = categoryRelativeUrl
             ? `https://ksis.szts.sk/mtasz/${categoryRelativeUrl}`
             : "#";
-          const _catId = categoryRelativeUrl.split("=")[1];
           const id = categoryRelativeUrl.split("=")[1];
 
           categories.push({
