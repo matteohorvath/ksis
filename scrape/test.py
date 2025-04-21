@@ -9,7 +9,7 @@ output_dir = "competition_data"
 os.makedirs(output_dir, exist_ok=True)
 
 # Base URL for the API
-base_url = "https://ksis.szts.sk/mtasz/hodnot_sut.php"
+base_url = "http://localhost:3000/api/competition-marks"
 
 # ID range to scrape
 start_id = 1
@@ -20,12 +20,12 @@ num_workers = 1
 
 def fetch_and_save(id):
     """Fetch data for a given ID and save it if not empty"""
-    url = f"{base_url}?sutaz_id={id}"
+    url = f"{base_url}?id={id}"
     try:
         response = requests.get(url, timeout=10)
         if response.status_code == 200:
             #assume its a html file and save it to the output directory
-            output_file = os.path.join(output_dir, f"competition_marks_{id}.html")
+            output_file = os.path.join(output_dir, f"competition_marks_{id}.json")
             with open(output_file, 'w') as f:
                 f.write(response.text)
             time.sleep(1)
