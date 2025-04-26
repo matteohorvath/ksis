@@ -48,7 +48,7 @@ def main():
     with open("failed_ids.txt", "r") as f:
         failed_ids = f.readlines()
     #remove the \n from the ids
-    ids = [int(id.strip()) for id in failed_ids]
+    ids = [int(id.strip()) for id in range(start_id, end_id)]
     successful = 0
     
     print(f"Starting to download data for {len(ids)} IDs...")
