@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-py" // Changed to Python client generator
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Competition {
+  id         Int      @id @default(autoincrement())
+  externalId Int      @unique // ID from the JSON filename
+  name       String // Name potentially includes category info, e.g., "VII. Forma Kupa - Junior I. D LAT 2014.04.12"
+  url        String? // Optional URL if available
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  rounds     Round[] // A competition has multiple rounds (e.g., Semifinal, Final)
+}
+
+model Round { 
+  id            Int          @id @default(autoincrement())
+  name          String // e.g., "Elődöntő", "Döntő"
+  competitionId Int
+  competition   Competition  @relation(fields: [competitionId], references: [id], onDelete: Cascade)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  roundJudges   RoundJudge[]
+  roundPairs    RoundPair[]
+
+  @@unique([competitionId, name])
+}
+
+model Judge {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique // e.g., "Judge A", or real name
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  roundJudges RoundJudge[]
+  marks       Mark[]
+}
+
+// Join table for Round and Judge, storing the judge identifier (A, B, C...) for that specific round
+model RoundJudge {
+  id              Int      @id @default(autoincrement())
+  roundId         Int
+  round           Round    @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  judgeId         Int
+  judge           Judge    @relation(fields: [judgeId], references: [id], onDelete: Cascade)
+  judgeIdentifier String // e.g., "A", "B", "C" - specific to the round context
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([roundId, judgeId])
+  @@unique([roundId, judgeIdentifier])
+}
+
+model Pair {
+  id         Int         @id @default(autoincrement())
+  name       String
+  club       String?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  roundPairs RoundPair[]
+  // A pair can participate in multiple rounds across different competitions
+
+  @@unique([name, club]) // Assuming name+club uniquely identifies a pair
+}
+
+// Join table for Round and Pair, storing results specific to that pair in that round
+model RoundPair {
+  id        Int      @id @default(autoincrement())
+  roundId   Int
+  round     Round    @relation(fields: [roundId], references: [id], onDelete: Cascade)
+  pairId    Int
+  pair      Pair     @relation(fields: [pairId], references: [id], onDelete: Cascade)
+  place     Int? // Place achieved in this round
+  points    Float? // Points achieved in this round (might be only relevant for Final)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  marks     Mark[]
+
+  @@unique([roundId, pairId])
+}
+
+model Mark {
+  id          Int       @id @default(autoincrement())
+  roundPairId Int // Link to the specific instance of the pair in the round
+  roundPair   RoundPair @relation(fields: [roundPairId], references: [id], onDelete: Cascade)
+  judgeId     Int // Link to the specific judge who gave the mark
+  judge       Judge     @relation(fields: [judgeId], references: [id], onDelete: Cascade)
+  markValue   String // The actual mark (can be 'X', number, etc.)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Removed direct categoryId
+  // categoryId  Int?
+  // Category    Category? @relation(fields: [categoryId], references: [id])
+
+  @@unique([roundPairId, judgeId]) // A judge gives one mark per pair per round
+}
