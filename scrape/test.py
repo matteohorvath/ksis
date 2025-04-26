@@ -45,8 +45,8 @@ def fetch_and_save(id):
 def main():
     """Main function to parallelize the scraping process"""
     #read the failed ids from the file
-    with open("failed_ids.txt", "r") as f:
-        failed_ids = f.readlines()
+    #with open("failed_ids.txt", "r") as f:
+    #    failed_ids = f.readlines()
     #remove the \n from the ids
     ids = [int(id.strip()) for id in range(start_id, end_id)]
     successful = 0
