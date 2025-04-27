@@ -49,7 +49,11 @@ def main():
     #    failed_ids = f.readlines()
     #remove the \n from the ids
     #ids = range(start_id, end_id)
-    ids = range(start_id, end_id)
+    #ids = range(start_id, end_id)
+    with open("real_failed_ids.txt", "r") as f:
+        failed_ids = f.readlines()
+    #remove the \n from the ids
+    ids = [int(id.strip()) for id in failed_ids]
     successful = 0
     
     print(f"Starting to download data for {len(ids)} IDs...")
