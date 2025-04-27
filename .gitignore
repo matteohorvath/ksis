@@ -45,3 +45,4 @@ next-env.d.ts
 scrape/.venv/
 scrape/competition_data/
 scrape/generated/
+scrape/comp.zip
