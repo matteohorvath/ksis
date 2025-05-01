@@ -1,248 +1,429 @@
-import os
+# scrape/migrate.py
 import json
-import re
+import os
 import asyncio
-from prisma import Prisma
-from prisma.models import Competition, Round, Judge, Pair, RoundJudge, RoundPair, Mark
+import re
+import logging # Import logging
+from datetime import datetime
+from pathlib import Path
+from tqdm.asyncio import tqdm # Import tqdm for async
 
-from decimal import Decimal, InvalidOperation
+# --- Logging Configuration ---
+LOG_FILE = Path(__file__).parent / "migration.log"
+logging.basicConfig(
+    level=logging.WARNING, # Log WARNING level and above (suppresses INFO)
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler(LOG_FILE, mode='w'), # Write to file, overwrite each run
+        logging.StreamHandler() # Also print warnings/errors to console
+    ]
+)
+
+# Assuming Prisma client is generated in ./generated/prisma relative to this script
+# Adjust the import path if your generated client is elsewhere
+try:
+    from generated.prisma import Prisma, register
+    from generated.prisma.models import (
+        Competition, Judge, JudgeAssignment, Couple, Club, ParticipantResult,
+        CompetitionMarks, Round, RoundMark, JudgeMark
+    )
+    from generated.prisma.errors import PrismaError
+except ImportError:
+    logging.error("Prisma client not found.") # Use logging
+    logging.error("Please run 'prisma generate' in the 'scrape' directory.")
+    logging.error("Make sure migrate.py is in the 'scrape' directory.")
+    exit(1)
 
 # --- Configuration ---
-DATA_DIR = os.path.join(os.path.dirname(__file__), 'competition_data')
-# Example judge names - replace or enhance if actual names are available elsewhere
-JUDGE_IDENTIFIERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+BASE_DATA_DIR = Path(__file__).parent / "competition_data"
+RESULTS_DIR = BASE_DATA_DIR / "results"
+DATABASE_URL = "file:./dev.db" # Matches schema.prisma
 
 # --- Helper Functions ---
-def extract_competition_id(filename):
-    match = re.search(r'competition_marks_(\d+)\.json$', filename)
+def extract_id_from_filename(filename):
+    """Extracts the numeric ID from filenames like 'competition_marks_12345.json'"""
+    match = re.search(r'_(\d+)\.json$', filename)
     return int(match.group(1)) if match else None
 
-def parse_pair_info(pair_string):
-    
-    # split it on the first occasion where after a low cap letter there is a high cap and no space
-    parts = re.split(r'(?<=[a-z])(?=[A-Z])', pair_string)
-    name = parts[0].strip()
-    club = parts[1].strip() if len(parts) > 1 else None
-    return name, club
-
-def parse_points(points_str):
+def parse_datetime_safe(date_str):
+    """Safely parse date strings, return None if invalid."""
+    if not date_str:
+        return None
     try:
-        return Decimal(points_str)
-    except (InvalidOperation, ValueError, TypeError):
+        # Add more formats if needed based on actual data variability
+        return datetime.strptime(date_str, '%Y.%m.%d')
+    except ValueError:
+        logging.warning(f"Warning: Could not parse date '{date_str}'") # Use logging
+        return None # Or handle as String if schema changes
+
+async def upsert_competition(db: Prisma, comp_id: int, data: dict):
+    """Upserts Competition details from results JSON."""
+    # Handle potential missing keys gracefully
+    counters_str = ", ".join(data.get('counters', [])) # Join list into a string
+
+    # Safely get and convert participantCount
+    raw_participant_count = data.get('participantCount')
+    participant_count_int = None
+    if raw_participant_count is not None:
         try:
-            return Decimal(str(points_str).replace(',', '.'))
-        except (InvalidOperation, ValueError, TypeError):
-            return None # Return None if conversion fails
+            participant_count_int = int(raw_participant_count)
+        except (ValueError, TypeError):
+            logging.warning(f"Warning: Invalid participantCount '{raw_participant_count}' for Comp {comp_id}. Setting to null.")
+            participant_count_int = None # Set to None if conversion fails
 
-# --- Main Migration Logic ---
-async def main():
-    print("Starting migration...")
-    db = Prisma()
-    await db.connect()
-    print(f"Connected to database.")
+    await db.competition.upsert(
+        where={'id': comp_id},
+        data={
+            'create': {
+                'id': comp_id,
+                'title': data.get('title', f'Competition {comp_id}'),
+                # 'date': parse_datetime_safe(data.get('date')), # Uncomment if date is reliable
+                'location': data.get('location'),
+                'organizer': data.get('organizer'),
+                'organizerRepresentative': data.get('organizerRepresentative'),
+                'type': data.get('type'),
+                'participantCount': participant_count_int, # Use validated value
+                'commissioner': data.get('commissioner'),
+                'supervisor': data.get('supervisor'),
+                'announcer': data.get('announcer'),
+                'counters': counters_str,
+            },
+            'update': {
+                'title': data.get('title', f'Competition {comp_id}'),
+                # 'date': parse_datetime_safe(data.get('date')),
+                'location': data.get('location'),
+                'organizer': data.get('organizer'),
+                'organizerRepresentative': data.get('organizerRepresentative'),
+                'type': data.get('type'),
+                'participantCount': participant_count_int, # Use validated value
+                'commissioner': data.get('commissioner'),
+                'supervisor': data.get('supervisor'),
+                'announcer': data.get('announcer'),
+                'counters': counters_str,
+            }
+        }
+    )
 
-    files_processed = 0
-    total_files = 0
-    json_files = [f for f in os.listdir(DATA_DIR) if f.endswith('.json')]
-    total_files = len(json_files)
-    print(f"Found {total_files} JSON files in {DATA_DIR}")
+async def upsert_judges(db: Prisma, comp_id: int, judges_data: list):
+    """Upserts Judges and their assignments for a competition."""
+    judge_assignments = []
+    for judge_info in judges_data:
+        if not judge_info.get('name') or not judge_info.get('id'):
+            logging.warning(f"Warning: Skipping judge with missing name or id in Competition {comp_id}: {judge_info}")
+            continue
 
-    # Create dummy judges A, B, C... if they don't exist
-    # In a real scenario, you might have actual judge names
-    judge_map = {}
-    for identifier in JUDGE_IDENTIFIERS:
-         # Use a placeholder name if real names aren't available
-        judge_name = f"Judge {identifier}"
         judge = await db.judge.upsert(
-            where={'name': judge_name},
+            where={'name': judge_info['name']},
             data={
-                'create': {'name': judge_name},
-                'update': {},
-            }
-        )
-        judge_map[identifier] = judge
-        print(f"Upserted Judge {identifier} (ID: {judge.id})")
-
-
-    for filename in json_files:
-        comp_external_id = extract_competition_id(filename)
-        if comp_external_id is None:
-            print(f"Skipping file with invalid name format: {filename}")
-            continue
-
-        file_path = os.path.join(DATA_DIR, filename)
-        print(f"\nProcessing {filename} (Competition External ID: {comp_external_id})...")
-
-        try:
-            with open(file_path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-        except json.JSONDecodeError:
-            print(f"Error decoding JSON from {filename}. Skipping.")
-            continue
-        except Exception as e:
-            print(f"Error reading file {filename}: {e}. Skipping.")
-            continue
-
-        # 1. Create or update Competition
-        competition_name = data.get('title', f"Competition {comp_external_id}")
-        competition = await db.competition.upsert(
-            where={'externalId': comp_external_id},
-            data={
-                'create': {'externalId': comp_external_id, 'name': competition_name},
-                'update': {'name': competition_name},
-            }
-        )
-        print(f"  Upserted Competition: {competition.name} (ID: {competition.id})")
-
-        # 2. Process Sections as Rounds
-        for section in data.get('sections', []):
-            round_name = section.get('title')
-            if not round_name:
-                print("  Skipping section with no title.")
-                continue
-
-            # Create or update Round
-            current_round = await db.round.upsert(
-                where={'competitionId_name': {'competitionId': competition.id, 'name': round_name}},
-                data={
-                    'create': {'name': round_name, 'competitionId': competition.id},
-                    'update': {},
+                'create': {
+                    'name': judge_info['name'],
+                    'location': judge_info.get('location'),
+                    'link': judge_info.get('link'),
+                },
+                'update': {
+                    'location': judge_info.get('location'),
+                    'link': judge_info.get('link'),
                 }
-            )
-            print(f"    Upserted Round: {current_round.name} (ID: {current_round.id})")
+            }
+        )
+        assignment = await db.judgeassignment.upsert(
+            where={'competitionId_judgeLetter': {'competitionId': comp_id, 'judgeLetter': judge_info['id']}},
+            data={
+                'create': {
+                    'competitionId': comp_id,
+                    'judgeId': judge.id,
+                    'judgeLetter': judge_info['id'],
+                },
+                'update': { # Update judgeId if somehow the letter pointed elsewhere before
+                     'judgeId': judge.id,
+                }
+            }
+        )
+        judge_assignments.append(assignment)
+    return judge_assignments
 
-            headers = section.get('headers', [])
-            rows = section.get('rows', [])
-            if not headers or not rows:
-                print(f"    Skipping round '{round_name}' due to missing headers or rows.")
+
+async def upsert_participants(db: Prisma, comp_id: int, participants_data: list):
+    """Upserts Couples, Clubs, and ParticipantResults for a competition."""
+    count = 0
+    for participant_info in participants_data:
+        couple_name = participant_info.get('name')
+        club_name = participant_info.get('club')
+        start_number = participant_info.get('number')
+
+        if not couple_name or not club_name or not start_number:
+            logging.warning(f"Warning: Skipping participant with missing name, club, or number in Competition {comp_id}: {participant_info}")
+            continue
+
+        couple = await db.couple.upsert(
+            where={'name': couple_name},
+            data={'create': {'name': couple_name}, 'update': {}}
+        )
+        club = await db.club.upsert(
+            where={'name': club_name},
+            data={'create': {'name': club_name}, 'update': {}}
+        )
+
+        await db.participantresult.upsert(
+             where={'competitionId_number': {'competitionId': comp_id, 'number': start_number}},
+             data={
+                 'create': {
+                     'competitionId': comp_id,
+                     'coupleId': couple.id,
+                     'clubId': club.id,
+                     'number': start_number,
+                     'position': participant_info.get('position'),
+                     'section': participant_info.get('section'),
+                     'profileLink': participant_info.get('profileLink'),
+                 },
+                 'update': {
+                     'coupleId': couple.id, # Ensure links are correct if number existed
+                     'clubId': club.id,
+                     'position': participant_info.get('position'),
+                     'section': participant_info.get('section'),
+                     'profileLink': participant_info.get('profileLink'),
+                 }
+             }
+        )
+        count += 1
+    return count
+
+async def upsert_competition_marks(db: Prisma, comp_id: int, data: dict):
+    """Upserts CompetitionMarks details from main data JSON."""
+    # Ensure the Competition record exists first
+    competition = await db.competition.find_unique(where={'id': comp_id})
+    if not competition:
+        logging.error(f"Error: Competition {comp_id} not found in database. Skipping marks processing.")
+        # Optionally, create a basic competition entry here if desired
+        # await db.competition.create(data={'id': comp_id, 'title': data.get('title', f'Competition {comp_id} - Marks')})
+        return None # Return None explicitly on error
+
+    comp_marks = await db.competitionmarks.upsert(
+        where={'competitionId': comp_id},
+        data={
+            'create': {
+                'id': comp_id, # Use same ID
+                'competitionId': comp_id,
+                'title': data.get('title', f'Marks for Competition {comp_id}'),
+            },
+            'update': {
+                 'title': data.get('title', f'Marks for Competition {comp_id}'),
+            }
+        }
+    )
+    return comp_marks
+
+async def upsert_rounds_and_marks(db: Prisma, comp_marks: CompetitionMarks, sections_data: list, judge_assignments: list[JudgeAssignment]):
+    """Upserts Rounds, RoundMarks, and JudgeMarks."""
+    judge_assignment_map = {ja.judgeLetter: ja.id for ja in judge_assignments}
+    round_order = 0
+    for section in sections_data:
+        round_order += 1
+        round_title = section.get('title')
+        headers = section.get('headers', [])
+        rows = section.get('rows', [])
+
+        if not round_title or not headers or not rows:
+            logging.warning(f"Warning: Skipping section with missing title, headers, or rows in CompetitionMarks {comp_marks.id}: {round_title}")
+            continue
+
+        # Create or find the Round
+        db_round = await db.round.upsert(
+            where={'competitionMarksId_title': {'competitionMarksId': comp_marks.id, 'title': round_title}},
+            data={
+                'create': {
+                    'competitionMarksId': comp_marks.id,
+                    'title': round_title,
+                    'order': round_order,
+                },
+                'update': {
+                    'order': round_order, # Update order if it changes
+                }
+            }
+        )
+
+        # Identify dance columns and their judge letters
+        dance_columns = {}
+        for header in headers:
+            if '/' in header:
+                parts = header.split('/', 1)
+                dance_name = parts[0].strip()
+                judge_letters = parts[1].strip() if len(parts) > 1 else ""
+                dance_columns[header] = {'name': dance_name, 'letters': judge_letters}
+
+        # Process each participant's row in the round
+        for row_data in rows:
+            participant_number = row_data.get('FordulóRsz.')
+            if not participant_number:
+                logging.warning(f"Warning: Skipping row with missing participant number in Round {round_title}, Comp {comp_marks.id}")
                 continue
 
-            # Identify dance columns and active judges for this round
-            dance_judge_map = {} # { 'Samba': ['A', 'B', 'C'], ... }
-            round_active_judges = set()
+            # Check if participant exists (it should have been created from results files)
+            participant_result = await db.participantresult.find_unique(
+                where={'competitionId_number': {'competitionId': comp_marks.competitionId, 'number': participant_number}}
+            )
+            if not participant_result:
+                 logging.warning(f"Warning: ParticipantResult not found for Comp {comp_marks.competitionId}, Num {participant_number}. Skipping marks for this participant in Round {round_title}.")
+                 continue
 
-            for header in headers:
-                 # Simple check if header likely represents a dance with judges
-                match = re.match(r"^(.*?)(" + "|".join(judge_map.keys()) + r")+$", header)
-                if match:
-                    dance_name = match.group(1)
-                    judge_ids_str = header[len(dance_name):] # Get the 'ABCDE' part
-                    if dance_name not in dance_judge_map:
-                        dance_judge_map[dance_name] = []
-                        # Link judges to this round if not already done
-                        for judge_identifier in judge_ids_str:
-                            if judge_identifier in judge_map:
-                                judge = judge_map[judge_identifier]
-                                await db.roundjudge.upsert(
-                                    where={'roundId_judgeId': {'roundId': current_round.id, 'judgeId': judge.id}},
-                                    data={
-                                        'create': {
-                                            'roundId': current_round.id,
-                                            'judgeId': judge.id,
-                                            'judgeIdentifier': judge_identifier
-                                        },
-                                        'update': {'judgeIdentifier': judge_identifier}, # Ensure identifier is correct
-                                    }
-                                )
-                                dance_judge_map[dance_name].append(judge_identifier)
-                                round_active_judges.add(judge_identifier)
-                            else:
-                                 print(f"      Warning: Judge identifier '{judge_identifier}' in header '{header}' not found in judge_map.")
+            # Process marks for each dance in this row
+            for header, dance_info in dance_columns.items():
+                if header not in row_data:
+                    # logging.debug(f"Debug: Header '{header}' not in row data for participant {participant_number}, round {round_title}")
+                    continue # Skip if this dance wasn't performed or recorded for this participant
 
+                marks_string = row_data.get(header)
+                dance_name = dance_info['name']
+                judge_letters_str = dance_info['letters']
 
-            # 3. Process Rows (Pairs and Marks)
-            for row_data in rows:
-                pair_str = row_data.get('PárEgyesület')
-                if not pair_str:
-                    print("      Skipping row with missing 'PárEgyesület'.")
-                    continue
-
-                pair_name, pair_club = parse_pair_info(pair_str)
-
-                # Use empty string as placeholder for None club for the unique constraint
-                db_pair_club = pair_club if pair_club is not None else ""
-
-                # Create or update Pair
-                pair_unique_data = {'name': pair_name, 'club': db_pair_club}
-                pair = await db.pair.upsert(
-                    where={'name_club': pair_unique_data},
-                    data={
-                        'create': pair_unique_data,
-                        'update': {},
-                    }
-                )
-                # print(f"      Upserted Pair: {pair.name} (Club: {pair.club}) (ID: {pair.id})") # Can be verbose
-
-                # Create or update RoundPair link
-                place_str = row_data.get('Helyezés.')
-                place = None
-                if place_str:
-                    place_match = re.match(r'^(\d+)', place_str)
-                    if place_match:
-                        place = int(place_match.group(1))
-
-                points_str = row_data.get('Összesen')
-                points_decimal = parse_points(points_str)
-                # Explicitly convert points to float or None for Prisma
-                points_float = float(points_decimal) if points_decimal is not None else None
-
-
-                round_pair = await db.roundpair.upsert(
-                    where={'roundId_pairId': {'roundId': current_round.id, 'pairId': pair.id}},
+                # Create or find the RoundMark entry
+                round_mark_entry = await db.roundmark.upsert(
+                    where={'roundId_participantNumber_danceName': {
+                        'roundId': db_round.id,
+                        'participantNumber': participant_number,
+                        'danceName': dance_name
+                    }},
                     data={
                         'create': {
-                            # Use connect syntax for relations
-                            'round': {'connect': {'id': current_round.id}},
-                            'pair': {'connect': {'id': pair.id}},
-                            'place': place,
-                            'points': points_float, # Use the float value
+                            'roundId': db_round.id,
+                            'competitionId': comp_marks.competitionId,
+                            'participantNumber': participant_number,
+                            'danceName': dance_name,
+                            'totalScore': row_data.get('Összesen'),
+                            'placementInRound': row_data.get('Helyezés.'),
+                            'advancement': row_data.get('Tovább'),
                         },
                         'update': {
-                            'place': place,
-                            'points': points_float, # Use the float value
-                        },
+                            'totalScore': row_data.get('Összesen'),
+                            'placementInRound': row_data.get('Helyezés.'),
+                            'advancement': row_data.get('Tovább'),
+                        }
                     }
                 )
-                # print(f"        Upserted RoundPair (ID: {round_pair.id}) Place: {place}, Points: {points}") # Verbose
 
-                # Create Marks
-                for dance_name, judge_identifiers in dance_judge_map.items():
-                    header_name = dance_name + "".join(judge_identifiers) # Reconstruct header like "SambaABCDE"
-                    marks_str = row_data.get(header_name)
-                    if marks_str and len(marks_str) == len(judge_identifiers):
-                        for i, judge_identifier in enumerate(judge_identifiers):
-                            mark_value = marks_str[i]
-                            if mark_value != '.': # Assuming '.' means no mark given
-                                judge = judge_map.get(judge_identifier)
-                                if judge:
-                                    await db.mark.upsert(
-                                        where={'roundPairId_judgeId': {
-                                            'roundPairId': round_pair.id,
-                                            'judgeId': judge.id
-                                        }},
-                                        data={
-                                            'create': {
-                                                'roundPairId': round_pair.id,
-                                                'judgeId': judge.id,
-                                                'markValue': mark_value,
-                                            },
-                                            'update': {
-                                                'markValue': mark_value,
-                                            },
-                                        }
-                                    )
-                                    # print(f"          Upserted Mark: Judge {judge_identifier}, Dance {dance_name}, Mark {mark_value}") # Verbose
-                                else:
-                                    print(f"          Warning: Judge {judge_identifier} not found for mark in {filename} / {round_name}")
-                    elif marks_str:
-                         print(f"          Warning: Mark string '{marks_str}' length mismatch ({len(marks_str)}) for judges '{judge_identifiers}' ({len(judge_identifiers)}) in dance '{dance_name}' for header '{header_name}'")
+                # Process individual judge marks if available
+                if marks_string and judge_letters_str and len(marks_string) == len(judge_letters_str):
+                    judge_marks_to_create = []
+                    for i, judge_letter in enumerate(judge_letters_str):
+                        mark_char = marks_string[i]
+                        judge_assignment_id = judge_assignment_map.get(judge_letter)
+
+                        if judge_assignment_id:
+                            # Use upsert for individual judge marks
+                             await db.judgemark.upsert(
+                                 where={'roundMarkId_judgeAssignmentId': {
+                                     'roundMarkId': round_mark_entry.id,
+                                     'judgeAssignmentId': judge_assignment_id
+                                 }},
+                                 data={
+                                     'create': {
+                                         'roundMarkId': round_mark_entry.id,
+                                         'judgeAssignmentId': judge_assignment_id,
+                                         'mark': mark_char,
+                                     },
+                                     'update': {
+                                          'mark': mark_char, # Update if mark changes
+                                     }
+                                 }
+                             )
+                        else:
+                            logging.warning(f"Warning: Judge Assignment ID not found for letter '{judge_letter}' in Comp {comp_marks.competitionId}")
+                # else:
+                    # logging.debug(f"Debug: Skipping individual judge marks for {participant_number}, {dance_name}, Round {round_title}. Reason: Mismatched lengths or missing data. Marks: '{marks_string}', Letters: '{judge_letters_str}'")
 
 
-        files_processed += 1
-        print(f"  Finished processing {filename}. ({files_processed}/{total_files})")
+# --- Main Execution ---
+async def main():
+    """Main function to orchestrate the data migration."""
+    db = Prisma(datasource={"url": DATABASE_URL})
+    try:
+        await db.connect()
+        logging.info("Connected to database.") # Log info
 
-    await db.disconnect()
-    print(f"\nMigration finished. Processed {files_processed} files.")
+        processed_competitions = {} # Store judge assignments for marks processing
 
-if __name__ == '__main__':
+        # 1. Process Results Files
+        logging.info(f"\n--- Processing Results Files in {RESULTS_DIR} ---")
+        if not RESULTS_DIR.is_dir():
+            logging.error(f"Error: Results directory not found: {RESULTS_DIR}")
+        else:
+            results_files = [f for f in os.listdir(RESULTS_DIR) if f.endswith(".json")]
+            # Wrap the loop with tqdm.asyncio.tqdm
+            for filename in tqdm(results_files, desc="Processing Results", unit="file"):
+                comp_id = extract_id_from_filename(filename)
+                if comp_id is None:
+                    logging.warning(f"\nWarning: Could not extract ID from results filename: {filename}")
+                    continue
+
+                filepath = RESULTS_DIR / filename
+                try:
+                    with open(filepath, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+
+                    await upsert_competition(db, comp_id, data)
+                    judge_assignments = await upsert_judges(db, comp_id, data.get('judges', []))
+                    processed_competitions[comp_id] = judge_assignments # Store for later use
+                    await upsert_participants(db, comp_id, data.get('results', []))
+
+                except json.JSONDecodeError:
+                    logging.error(f"\nError: Invalid JSON in file: {filepath}") # Added newline for tqdm clarity
+                except PrismaError as e:
+                    logging.error(f"\nPrisma Error processing {filepath}: {e}") # Added newline
+                except Exception as e:
+                    logging.error(f"\nUnexpected Error processing {filepath}: {e}", exc_info=True) # Added newline
+
+        # 2. Process Marks Files
+        logging.info(f"\n--- Processing Marks Files in {BASE_DATA_DIR} ---")
+        if not BASE_DATA_DIR.is_dir():
+            logging.error(f"Error: Base data directory not found: {BASE_DATA_DIR}")
+        else:
+            marks_files = []
+            for filename in os.listdir(BASE_DATA_DIR):
+                filepath = BASE_DATA_DIR / filename
+                if not filepath.is_dir() and filename.endswith(".json"):
+                     marks_files.append(filename)
+
+            # Wrap the loop with tqdm.asyncio.tqdm
+            for filename in tqdm(marks_files, desc="Processing Marks", unit="file"):
+                comp_id = extract_id_from_filename(filename)
+                if comp_id is None:
+                    logging.warning(f"\nWarning: Could not extract ID from marks filename: {filename}")
+                    continue
+
+                if comp_id not in processed_competitions:
+                    # Use tqdm.write for messages within a tqdm loop to avoid breaking the bar
+                    logging.warning(f"Warning: Skipping marks file {filename} because no corresponding results file was processed (or had judges).")
+                    continue
+
+                judge_assignments_for_marks = processed_competitions[comp_id]
+                filepath = BASE_DATA_DIR / filename # Define filepath here
+
+                try:
+                    with open(filepath, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+
+                    # Ensure CompetitionMarks is linked correctly
+                    comp_marks = await upsert_competition_marks(db, comp_id, data)
+                    if comp_marks:
+                        await upsert_rounds_and_marks(db, comp_marks, data.get('sections', []), judge_assignments_for_marks)
+
+                except json.JSONDecodeError:
+                    logging.error(f"\nError: Invalid JSON in file: {filepath}") # Added newline
+                except PrismaError as e:
+                    logging.error(f"\nPrisma Error processing {filepath}: {e}") # Added newline
+                except Exception as e:
+                    logging.error(f"\nUnexpected Error processing {filepath}: {e}", exc_info=True) # Added newline
+
+        logging.info("\n--- Migration Finished ---") # Log info
+
+    except Exception as e:
+        logging.critical(f"A critical error occurred during migration: {e}", exc_info=True)
+    finally:
+        if db.is_connected():
+            await db.disconnect()
+            logging.info("Disconnected from database.") # Log info
+
+if __name__ == "__main__":
+    # Register the Prisma client (important for standalone scripts)
+    register(Prisma())
     asyncio.run(main())

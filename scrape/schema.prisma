@@ -14,94 +14,137 @@ datasource db {
   url      = "file:./dev.db"
 }
 
+// Overall competition details from files like results/competition_marks_XXXX.json
 model Competition {
-  id         Int      @id @default(autoincrement())
-  externalId Int      @unique // ID from the JSON filename
-  name       String // Name potentially includes category info, e.g., "VII. Forma Kupa - Junior I. D LAT 2014.04.12"
-  url        String? // Optional URL if available
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  rounds     Round[] // A competition has multiple rounds (e.g., Semifinal, Final)
-}
+  id                      Int       @id // Use the external ID from the filename
+  title                   String
+  date                    DateTime? // Or String if format varies
+  location                String?
+  organizer               String?
+  organizerRepresentative String?
+  type                    String?
+  participantCount        Int?
+  commissioner            String?
+  supervisor              String?
+  announcer               String?
+  counters                String // Changed from String[] to String to fix P1012 error
 
-model Round { 
-  id            Int          @id @default(autoincrement())
-  name          String // e.g., "Elődöntő", "Döntő"
-  competitionId Int
-  competition   Competition  @relation(fields: [competitionId], references: [id], onDelete: Cascade)
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
-  roundJudges   RoundJudge[]
-  roundPairs    RoundPair[]
-
-  @@unique([competitionId, name])
+  judges        JudgeAssignment[]
+  participants  ParticipantResult[] // Overall results for participants
+  categoryMarks CompetitionMarks? // Link to detailed marks using the same ID
 }
 
 model Judge {
-  id          Int          @id @default(autoincrement())
-  name        String       @unique // e.g., "Judge A", or real name
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  roundJudges RoundJudge[]
-  marks       Mark[]
+  id       Int     @id @default(autoincrement())
+  name     String  @unique
+  location String?
+  link     String?
+
+  assignments JudgeAssignment[]
 }
 
-// Join table for Round and Judge, storing the judge identifier (A, B, C...) for that specific round
-model RoundJudge {
-  id              Int      @id @default(autoincrement())
-  roundId         Int
-  round           Round    @relation(fields: [roundId], references: [id], onDelete: Cascade)
-  judgeId         Int
-  judge           Judge    @relation(fields: [judgeId], references: [id], onDelete: Cascade)
-  judgeIdentifier String // e.g., "A", "B", "C" - specific to the round context
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+// Assigns a judge with a letter ID to a competition
+model JudgeAssignment {
+  id            Int    @id @default(autoincrement())
+  competitionId Int
+  judgeId       Int
+  judgeLetter   String // A, B, C...
 
-  @@unique([roundId, judgeId])
-  @@unique([roundId, judgeIdentifier])
+  competition Competition @relation(fields: [competitionId], references: [id])
+  judge       Judge       @relation(fields: [judgeId], references: [id])
+  judgeMarks  JudgeMark[] // Added opposite relation field for JudgeMark
+
+  @@unique([competitionId, judgeId])
+  @@unique([competitionId, judgeLetter])
 }
 
-model Pair {
-  id         Int         @id @default(autoincrement())
-  name       String
-  club       String?
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  roundPairs RoundPair[]
-  // A pair can participate in multiple rounds across different competitions
+model Couple {
+  id   Int    @id @default(autoincrement())
+  name String @unique // Full name string as appears in data
 
-  @@unique([name, club]) // Assuming name+club uniquely identifies a pair
+  results ParticipantResult[]
 }
 
-// Join table for Round and Pair, storing results specific to that pair in that round
-model RoundPair {
-  id        Int      @id @default(autoincrement())
-  roundId   Int
-  round     Round    @relation(fields: [roundId], references: [id], onDelete: Cascade)
-  pairId    Int
-  pair      Pair     @relation(fields: [pairId], references: [id], onDelete: Cascade)
-  place     Int? // Place achieved in this round
-  points    Float? // Points achieved in this round (might be only relevant for Final)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  marks     Mark[]
+model Club {
+  id   Int    @id @default(autoincrement())
+  name String @unique
 
-  @@unique([roundId, pairId])
+  results ParticipantResult[]
 }
 
-model Mark {
-  id          Int       @id @default(autoincrement())
-  roundPairId Int // Link to the specific instance of the pair in the round
-  roundPair   RoundPair @relation(fields: [roundPairId], references: [id], onDelete: Cascade)
-  judgeId     Int // Link to the specific judge who gave the mark
-  judge       Judge     @relation(fields: [judgeId], references: [id], onDelete: Cascade)
-  markValue   String // The actual mark (can be 'X', number, etc.)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+// Represents the final result of a participant in a competition
+model ParticipantResult {
+  id            Int     @id @default(autoincrement())
+  competitionId Int
+  coupleId      Int
+  clubId        Int
+  number        String // Start number (e.g., "60"), used for linking to marks
+  position      String? // Final position (e.g., "1.", "17. - 18.")
+  section       String? // Final section reached (e.g., "Döntő")
+  profileLink   String?
 
-  // Removed direct categoryId
-  // categoryId  Int?
-  // Category    Category? @relation(fields: [categoryId], references: [id])
+  competition Competition @relation(fields: [competitionId], references: [id])
+  couple      Couple      @relation(fields: [coupleId], references: [id])
+  club        Club        @relation(fields: [clubId], references: [id])
+  roundMarks  RoundMark[] // Link to detailed marks using competitionId and number
 
-  @@unique([roundPairId, judgeId]) // A judge gives one mark per pair per round
+  @@unique([competitionId, number])
+  @@unique([competitionId, coupleId]) // Assuming one entry per couple per competition
+}
+
+// Represents the detailed marks data from files like competition_data/competition_marks_XXXX.json
+model CompetitionMarks {
+  id            Int    @id // Use the external ID from the filename
+  title         String
+  competitionId Int    @unique // Foreign key to Competition
+
+  competition Competition @relation(fields: [competitionId], references: [id])
+  rounds      Round[]
+}
+
+model Round {
+  id                 Int    @id @default(autoincrement())
+  competitionMarksId Int
+  title              String // e.g., "1.Forduló", "Elődöntő"
+  order              Int? // Optional: Explicit ordering
+
+  competitionMarks CompetitionMarks @relation(fields: [competitionMarksId], references: [id])
+  marks            RoundMark[]
+
+  @@unique([competitionMarksId, title])
+}
+
+// Represents the marks for a specific participant identified by their start number
+// within a specific round and dance.
+model RoundMark {
+  id                Int    @id @default(autoincrement())
+  roundId           Int
+  // Link to ParticipantResult using competitionId + number
+  competitionId     Int // Need this for the compound foreign key
+  participantNumber String // The start number (FordulóRsz.)
+
+  danceName        String // Parsed dance name (e.g., "Samba", "Angol keringő")
+  totalScore       String? // Can be int or float string (e.g., "45", "25.0")
+  placementInRound String? // Placement within the round (e.g., "1 - 7")
+  advancement      String? // Advancement status (e.g., "A", "-")
+
+  round             Round             @relation(fields: [roundId], references: [id])
+  participantResult ParticipantResult @relation(fields: [competitionId, participantNumber], references: [competitionId, number])
+  judgeMarks        JudgeMark[] // Relation to individual judge marks
+
+  @@unique([roundId, participantNumber, danceName]) // Mark unique per participant per dance per round
+  @@index([competitionId, participantNumber])
+}
+
+// Represents the individual mark given by a judge for a specific dance entry
+model JudgeMark {
+  id                Int    @id @default(autoincrement())
+  roundMarkId       Int // Links to the specific dance entry (participant, dance, round)
+  judgeAssignmentId Int // Links to the specific judge in this competition
+  mark              String // Stores 'X', '.', or placement number ('1'-'9')
+
+  roundMark       RoundMark       @relation(fields: [roundMarkId], references: [id])
+  judgeAssignment JudgeAssignment @relation(fields: [judgeAssignmentId], references: [id])
+
+  @@unique([roundMarkId, judgeAssignmentId])
 }
