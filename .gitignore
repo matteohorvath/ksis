@@ -45,4 +45,5 @@ next-env.d.ts
 scrape/.venv/
 scrape/competition_data/
 scrape/generated/
+scrape/sample_data/
 scrape/comp.zip
