@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-py" // Changed to Python client generator
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// Overall competition details from files like results/competition_marks_XXXX.json
+model Competition {
+  id       Int     @id @default(autoincrement()) // Use the external ID from the filename
+  title    String
+  date     String? // Or String if format varies
+  location String?
+  events   Event[]
+}
+
+//every competition has several events 
+//each event has rounds
+model Event {
+  id            Int         @id @default(autoincrement())
+  name          String
+  competitionId Int
+  competition   Competition @relation(fields: [competitionId], references: [id])
+  rounds        Round[]
+  judges        Judge[]
+  results       Result[]
+  falseData     Boolean     @default(false)
+}
+
+model Result {
+  id            Int         @id @default(autoincrement())
+  eventId       Int
+  event         Event       @relation(fields: [eventId], references: [id])
+  participant   Participant @relation(fields: [participantId], references: [id])
+  participantId Int
+  number        String
+  section       String
+  position      String
+  marks         Mark[]
+}
+
+model Round {
+  id           Int           @id @default(autoincrement())
+  name         String
+  eventId      Int
+  event        Event         @relation(fields: [eventId], references: [id])
+  participants Participant[] @relation("ParticipantToRound")
+  marks        Mark[]
+}
+
+model Mark {
+  id                Int         @id @default(autoincrement())
+  roundId           Int
+  round             Round       @relation(fields: [roundId], references: [id])
+  participantId     Int
+  participant       Participant @relation(fields: [participantId], references: [id])
+  judgeId           Int
+  judge             Judge       @relation(fields: [judgeId], references: [id])
+  judgeSign         String //A, B, C... or any letter
+  mark              Boolean // X or not
+  proposedPlacement Int
+  danceType         String
+  resultId          Int
+  result            Result      @relation(fields: [resultId], references: [id])
+}
+
+model Judge {
+  id       Int     @id @default(autoincrement())
+  name     String
+  location String
+  link     String
+  events   Event[]
+  marks    Mark[]
+
+  @@map("judges")
+}
+
+model Participant {
+  id          Int      @id @default(autoincrement())
+  name        String
+  club        String
+  rounds      Round[]  @relation("ParticipantToRound")
+  results     Result[]
+  marks       Mark[]
+  profileLink String
+
+  @@map("participants")
+}

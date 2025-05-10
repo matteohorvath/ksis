@@ -5,6 +5,7 @@ type Judge = {
   name: string;
   location: string;
   link?: string;
+  id?: string;
 };
 
 type Result = {
@@ -157,12 +158,14 @@ async function fetchCompetitionResults(
       const match = fullText.match(/([A-Z])\s*-\s*([^(]+)\(([^)]+)\)/);
 
       if (match) {
+        const id = match[1];
         const name = match[2].trim();
         const location = match[3].trim();
         judges.push({
           name,
           location,
           link: linkHref,
+          id,
         });
       }
     });

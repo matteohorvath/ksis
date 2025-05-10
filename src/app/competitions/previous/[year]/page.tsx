@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import MonthSection from "@/components/MonthSection";
 import { useLanguage } from "@/i18n/LanguageContext";
 import Navbar from "@/components/Navbar";
+import { useParams, useRouter } from "next/navigation";
 
 type Category = {
   name: string;
@@ -28,11 +29,13 @@ export default function PreviousCompetitions() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const currentYear = new Date().getFullYear();
-  const [selectedYear, setSelectedYear] = useState<string>(
-    currentYear.toString()
-  );
+  const params = useParams();
+  const year = params.year as string;
+  const router = useRouter();
+  const [selectedYear, setSelectedYear] = useState<string>(year);
 
-  const years = Array.from({ length: 10 }, (_, i) =>
+  //array of string years from 2014 to current year
+  const years = Array.from({ length: currentYear - 2013 }, (_, i) =>
     (currentYear - i).toString()
   );
 
@@ -63,7 +66,11 @@ export default function PreviousCompetitions() {
     };
 
     fetchData();
-  }, [t, selectedYear]);
+  }, [t]);
+
+  useEffect(() => {
+    router.push(`/competitions/previous/${selectedYear}`);
+  }, [selectedYear]);
 
   const handleRetry = () => {
     setError(null);

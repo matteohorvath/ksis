@@ -7,6 +7,7 @@
     "upcomingCompetitions": "Upcoming Competitions",
     "previousCompetitions": "Previous Competitions",
     "rankings": "Rankings",
+    "statistics": "Statistics",
     "back": "Back to Competitions"
   },
   "main": {
@@ -119,5 +120,15 @@
       "T": "10 Dance"
     },
     "dataSource": "Data sourced from"
+  },
+  "statistics": {
+    "title": "Competition Statistics",
+    "lastUpdated": "Data last updated: ",
+    "totalEvents": "Total Events",
+    "yearsTracked": "Years Tracked",
+    "averageEventsPerYear": "Average Events/Year",
+    "eventsPerYear": "Events per Year",
+    "topJudges": "Top Judges by Event Participation",
+    "topParticipants": "Top Participants by Event Participation"
   }
 }

@@ -4,6 +4,7 @@ import * as cheerio from "cheerio";
 type Category = {
   name: string;
   url: string;
+  id: string;
 };
 
 type Competition = {
@@ -83,10 +84,12 @@ export async function GET(request: Request) {
           const categoryUrl = categoryRelativeUrl
             ? `https://ksis.szts.sk/mtasz/${categoryRelativeUrl}`
             : "#";
+          const id = categoryRelativeUrl.split("=")[1];
 
           categories.push({
             name: categoryName,
             url: categoryUrl,
+            id,
           });
         });
 

@@ -6,6 +6,35 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
 
+// Function to transliterate Hungarian characters to English equivalents
+const transliterateHungarianToEnglish = (text: string): string => {
+  const hungarianMap: { [key: string]: string } = {
+    á: "a",
+    Á: "A",
+    é: "e",
+    É: "E",
+    í: "i",
+    Í: "I",
+    ó: "o",
+    Ó: "O",
+    ö: "o",
+    Ö: "O",
+    ő: "o",
+    Ő: "O",
+    ú: "u",
+    Ú: "U",
+    ü: "u",
+    Ü: "U",
+    ű: "u",
+    Ű: "U",
+  };
+
+  return text
+    .split("")
+    .map((char) => hungarianMap[char] || char)
+    .join("");
+};
+
 type Judge = {
   name: string;
   location: string;
@@ -169,6 +198,28 @@ export default function CategoryDetailPage() {
     }, {});
   }, [data?.results, t]);
 
+  // Function to generate and download CSV data
+  const handleDownloadCSV = async () => {
+    if (!data) {
+      setError(t("main.error.message"));
+      return;
+    }
+
+    try {
+      // Create a download link for the complete archive
+      const link = document.createElement("a");
+      link.href = `/api/download-competition?id=${id}&fields=all`;
+      const transliteratedTitle = transliterateHungarianToEnglish(data.title);
+      link.download = `${transliteratedTitle.replace(/\s+/g, "_")}_data.zip`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error("Error downloading ZIP file:", err);
+      setError(t("competition.downloadError") || "Error downloading ZIP file");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -311,6 +362,16 @@ export default function CategoryDetailPage() {
                   >
                     {t("competition.skating")}
                   </button>
+                  <button
+                    onClick={() => handleTabChange("download")}
+                    className={`${
+                      activeTab === "download"
+                        ? "border-blue-500 text-blue-600"
+                        : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                    } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm`}
+                  >
+                    {t("competition.download") || "Download ZIP Archive"}
+                  </button>
                 </nav>
               </div>
 
@@ -322,85 +383,111 @@ export default function CategoryDetailPage() {
                   </h2>
 
                   {data.results && data.results.length > 0 ? (
-                    <div className="space-y-8">
-                      {Object.entries(groupedResults).map(
-                        ([section, results]) => (
-                          <div key={section} className="mb-6">
-                            <h3 className="text-lg font-medium text-blue-800 mb-3 italic">
-                              {section}
-                            </h3>
-                            <div className="overflow-x-auto">
-                              <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-gray-50">
-                                  <tr>
-                                    <th
-                                      scope="col"
-                                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                    >
-                                      {t("competition.position")}
-                                    </th>
-                                    <th
-                                      scope="col"
-                                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                    >
-                                      {t("competition.number")}
-                                    </th>
-                                    <th
-                                      scope="col"
-                                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                    >
-                                      {t("competition.name")}
-                                    </th>
-                                    <th
-                                      scope="col"
-                                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                    >
-                                      {t("competition.club")}
-                                    </th>
-                                  </tr>
-                                </thead>
-                                <tbody className="bg-white divide-y divide-gray-200">
-                                  {results.map((result, index) => (
-                                    <tr
-                                      key={index}
-                                      className={
-                                        index % 2 === 0
-                                          ? "bg-white"
-                                          : "bg-gray-50"
-                                      }
-                                    >
-                                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        {result.position}
-                                      </td>
-                                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {result.number}
-                                      </td>
-                                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {result.profileLink ? (
-                                          <Link
-                                            href={`/participants/${
-                                              result.profileLink.split("=")[1]
-                                            }`}
-                                            className="text-blue-600 hover:text-blue-800 hover:underline"
-                                          >
-                                            {result.name}
-                                          </Link>
-                                        ) : (
-                                          result.name
-                                        )}
-                                      </td>
-                                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {result.club}
-                                      </td>
+                    <>
+                      <div className="mb-6">
+                        <a
+                          href={`/api/download-competition?id=${id}&fields=results`}
+                          className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition-colors"
+                          download
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 mr-2"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                            />
+                          </svg>
+                          {t("competition.downloadResultsOnly") ||
+                            "Download Results Only"}
+                        </a>
+                      </div>
+                      <div className="space-y-8">
+                        {Object.entries(groupedResults).map(
+                          ([section, results]) => (
+                            <div key={section} className="mb-6">
+                              <h3 className="text-lg font-medium text-blue-800 mb-3 italic">
+                                {section}
+                              </h3>
+                              <div className="overflow-x-auto">
+                                <table className="min-w-full divide-y divide-gray-200">
+                                  <thead className="bg-gray-50">
+                                    <tr>
+                                      <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                      >
+                                        {t("competition.position")}
+                                      </th>
+                                      <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                      >
+                                        {t("competition.number")}
+                                      </th>
+                                      <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                      >
+                                        {t("competition.name")}
+                                      </th>
+                                      <th
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                      >
+                                        {t("competition.club")}
+                                      </th>
                                     </tr>
-                                  ))}
-                                </tbody>
-                              </table>
+                                  </thead>
+                                  <tbody className="bg-white divide-y divide-gray-200">
+                                    {results.map((result, index) => (
+                                      <tr
+                                        key={index}
+                                        className={
+                                          index % 2 === 0
+                                            ? "bg-white"
+                                            : "bg-gray-50"
+                                        }
+                                      >
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                          {result.position}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                          {result.number}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                          {result.profileLink ? (
+                                            <Link
+                                              href={`/participants/${
+                                                result.profileLink.split("=")[1]
+                                              }`}
+                                              className="text-blue-600 hover:text-blue-800 hover:underline"
+                                            >
+                                              {result.name}
+                                            </Link>
+                                          ) : (
+                                            result.name
+                                          )}
+                                        </td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                          {result.club}
+                                        </td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              </div>
                             </div>
-                          </div>
-                        )
-                      )}
-                    </div>
+                          )
+                        )}
+                      </div>
+                    </>
                   ) : (
                     <p className="text-gray-500 italic">
                       {t("competition.noResults")}
@@ -417,74 +504,102 @@ export default function CategoryDetailPage() {
                   </h2>
 
                   {data.judges && data.judges.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                      <div>
-                        <h3 className="text-lg font-medium text-gray-800 mb-2">
-                          {t("competition.scoringJudges")}
-                        </h3>
-                        <ul className="space-y-2">
-                          {data.judges.map((judge, index) => (
-                            <li key={index} className="text-gray-700">
-                              {judge.link ? (
-                                <Link
-                                  href={`/participants/${
-                                    judge.link.split("=")[1]
-                                  }`}
-                                  className="text-blue-600 hover:text-blue-800 hover:underline"
-                                >
-                                  {judge.name}
-                                </Link>
-                              ) : (
-                                judge.name
-                              )}{" "}
-                              <span className="text-gray-500">
-                                ({judge.location})
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
+                    <>
+                      <div className="mb-6">
+                        <a
+                          href={`/api/download-competition?id=${id}&fields=judges,info`}
+                          className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition-colors"
+                          download
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 mr-2"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                            />
+                          </svg>
+                          {t("competition.downloadJudgesInfo") ||
+                            "Download Judges & Officials"}
+                        </a>
                       </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                          <h3 className="text-lg font-medium text-gray-800 mb-2">
+                            {t("competition.scoringJudges")}
+                          </h3>
+                          <ul className="space-y-2">
+                            {data.judges.map((judge, index) => (
+                              <li key={index} className="text-gray-700">
+                                {judge.link ? (
+                                  <Link
+                                    href={`/participants/${
+                                      judge.link.split("=")[1]
+                                    }`}
+                                    className="text-blue-600 hover:text-blue-800 hover:underline"
+                                  >
+                                    {judge.name}
+                                  </Link>
+                                ) : (
+                                  judge.name
+                                )}{" "}
+                                <span className="text-gray-500">
+                                  ({judge.location})
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
 
-                      <div>
-                        {data.commissioner && (
-                          <div className="mb-4">
-                            <h3 className="text-lg font-medium text-gray-800 mb-2">
-                              {t("competition.commissioner")}
-                            </h3>
-                            <p className="text-gray-700">{data.commissioner}</p>
-                          </div>
-                        )}
+                        <div>
+                          {data.commissioner && (
+                            <div className="mb-4">
+                              <h3 className="text-lg font-medium text-gray-800 mb-2">
+                                {t("competition.commissioner")}
+                              </h3>
+                              <p className="text-gray-700">
+                                {data.commissioner}
+                              </p>
+                            </div>
+                          )}
 
-                        {data.supervisor && (
-                          <div className="mb-4">
-                            <h3 className="text-lg font-medium text-gray-800 mb-2">
-                              {t("competition.supervisor")}
-                            </h3>
-                            <p className="text-gray-700">{data.supervisor}</p>
-                          </div>
-                        )}
+                          {data.supervisor && (
+                            <div className="mb-4">
+                              <h3 className="text-lg font-medium text-gray-800 mb-2">
+                                {t("competition.supervisor")}
+                              </h3>
+                              <p className="text-gray-700">{data.supervisor}</p>
+                            </div>
+                          )}
 
-                        {data.announcer && (
-                          <div className="mb-4">
-                            <h3 className="text-lg font-medium text-gray-800 mb-2">
-                              {t("competition.announcer")}
-                            </h3>
-                            <p className="text-gray-700">{data.announcer}</p>
-                          </div>
-                        )}
+                          {data.announcer && (
+                            <div className="mb-4">
+                              <h3 className="text-lg font-medium text-gray-800 mb-2">
+                                {t("competition.announcer")}
+                              </h3>
+                              <p className="text-gray-700">{data.announcer}</p>
+                            </div>
+                          )}
 
-                        {data.counters && data.counters.length > 0 && (
-                          <div>
-                            <h3 className="text-lg font-medium text-gray-800 mb-2">
-                              {t("competition.counters")}
-                            </h3>
-                            <p className="text-gray-700">
-                              {data.counters.join(", ")}
-                            </p>
-                          </div>
-                        )}
+                          {data.counters && data.counters.length > 0 && (
+                            <div>
+                              <h3 className="text-lg font-medium text-gray-800 mb-2">
+                                {t("competition.counters")}
+                              </h3>
+                              <p className="text-gray-700">
+                                {data.counters.join(", ")}
+                              </p>
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
+                    </>
                   ) : (
                     <p className="text-gray-500 italic">
                       {t("competition.noJudges")}
@@ -519,61 +634,87 @@ export default function CategoryDetailPage() {
                   )}
 
                   {!isLoadingMarks && !markError && markData && (
-                    <div className="space-y-8">
-                      {markData.sections.map((section, sectionIndex) => (
-                        <div key={sectionIndex} className="mb-6">
-                          <h3 className="text-lg font-medium text-blue-800 mb-3">
-                            {section.title}
-                          </h3>
-                          <div className="overflow-x-auto">
-                            <table className="min-w-full divide-y divide-gray-200">
-                              <thead className="bg-gray-50">
-                                <tr>
-                                  {section.headers.map((header, idx) => (
-                                    <th
-                                      key={idx}
-                                      scope="col"
-                                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                    >
-                                      {header}
-                                    </th>
-                                  ))}
-                                </tr>
-                              </thead>
-                              <tbody className="bg-white divide-y divide-gray-200">
-                                {section.rows.map((row, rowIndex) => (
-                                  <tr
-                                    key={rowIndex}
-                                    className={
-                                      rowIndex % 2 === 0
-                                        ? "bg-white"
-                                        : "bg-gray-50"
-                                    }
-                                  >
-                                    {section.headers.map(
-                                      (header, cellIndex) => (
-                                        <td
-                                          key={cellIndex}
-                                          className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-                                        >
-                                          {row[header]}
-                                        </td>
-                                      )
-                                    )}
+                    <>
+                      <div className="mb-6">
+                        <a
+                          href={`/api/download-competition?id=${id}&fields=marks`}
+                          className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition-colors"
+                          download
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 mr-2"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                            />
+                          </svg>
+                          {t("competition.downloadMarksOnly") ||
+                            "Download Marks Only"}
+                        </a>
+                      </div>
+                      <div className="space-y-8">
+                        {markData.sections.map((section, sectionIndex) => (
+                          <div key={sectionIndex} className="mb-6">
+                            <h3 className="text-lg font-medium text-blue-800 mb-3">
+                              {section.title}
+                            </h3>
+                            <div className="overflow-x-auto">
+                              <table className="min-w-full divide-y divide-gray-200">
+                                <thead className="bg-gray-50">
+                                  <tr>
+                                    {section.headers.map((header, idx) => (
+                                      <th
+                                        key={idx}
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                      >
+                                        {header}
+                                      </th>
+                                    ))}
                                   </tr>
-                                ))}
-                              </tbody>
-                            </table>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-gray-200">
+                                  {section.rows.map((row, rowIndex) => (
+                                    <tr
+                                      key={rowIndex}
+                                      className={
+                                        rowIndex % 2 === 0
+                                          ? "bg-white"
+                                          : "bg-gray-50"
+                                      }
+                                    >
+                                      {section.headers.map(
+                                        (header, cellIndex) => (
+                                          <td
+                                            key={cellIndex}
+                                            className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                                          >
+                                            {row[header]}
+                                          </td>
+                                        )
+                                      )}
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
 
-                      {markData.sections.length === 0 && (
-                        <p className="text-gray-500 italic">
-                          {t("competition.noMarks")}
-                        </p>
-                      )}
-                    </div>
+                        {markData.sections.length === 0 && (
+                          <p className="text-gray-500 italic">
+                            {t("competition.noMarks")}
+                          </p>
+                        )}
+                      </div>
+                    </>
                   )}
                 </div>
               )}
@@ -604,62 +745,198 @@ export default function CategoryDetailPage() {
                   )}
 
                   {!isLoadingSkating && !skatingError && skatingData && (
-                    <div className="space-y-8">
-                      {skatingData.sections.map((section, sectionIndex) => (
-                        <div key={sectionIndex} className="mb-6">
-                          <h3 className="text-lg font-medium text-blue-800 mb-3">
-                            {section.title}
-                          </h3>
-                          <div className="overflow-x-auto">
-                            <table className="min-w-full divide-y divide-gray-200">
-                              <thead className="bg-gray-50">
-                                <tr>
-                                  {section.headers.map((header, idx) => (
-                                    <th
-                                      key={idx}
-                                      scope="col"
-                                      className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                                    >
-                                      {header}
-                                    </th>
-                                  ))}
-                                </tr>
-                              </thead>
-                              <tbody className="bg-white divide-y divide-gray-200">
-                                {section.rows.map((row, rowIndex) => (
-                                  <tr
-                                    key={rowIndex}
-                                    className={
-                                      rowIndex % 2 === 0
-                                        ? "bg-white"
-                                        : "bg-gray-50"
-                                    }
-                                  >
-                                    {section.headers.map(
-                                      (header, cellIndex) => (
-                                        <td
-                                          key={cellIndex}
-                                          className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-                                        >
-                                          {row[header]}
-                                        </td>
-                                      )
-                                    )}
+                    <>
+                      <div className="mb-6">
+                        <a
+                          href={`/api/download-competition?id=${id}&fields=skating`}
+                          className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm transition-colors"
+                          download
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-5 w-5 mr-2"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                            />
+                          </svg>
+                          {t("competition.downloadSkatingOnly") ||
+                            "Download Skating Only"}
+                        </a>
+                      </div>
+                      <div className="space-y-8">
+                        {skatingData.sections.map((section, sectionIndex) => (
+                          <div key={sectionIndex} className="mb-6">
+                            <h3 className="text-lg font-medium text-blue-800 mb-3">
+                              {section.title}
+                            </h3>
+                            <div className="overflow-x-auto">
+                              <table className="min-w-full divide-y divide-gray-200">
+                                <thead className="bg-gray-50">
+                                  <tr>
+                                    {section.headers.map((header, idx) => (
+                                      <th
+                                        key={idx}
+                                        scope="col"
+                                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                                      >
+                                        {header}
+                                      </th>
+                                    ))}
                                   </tr>
-                                ))}
-                              </tbody>
-                            </table>
+                                </thead>
+                                <tbody className="bg-white divide-y divide-gray-200">
+                                  {section.rows.map((row, rowIndex) => (
+                                    <tr
+                                      key={rowIndex}
+                                      className={
+                                        rowIndex % 2 === 0
+                                          ? "bg-white"
+                                          : "bg-gray-50"
+                                      }
+                                    >
+                                      {section.headers.map(
+                                        (header, cellIndex) => (
+                                          <td
+                                            key={cellIndex}
+                                            className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                                          >
+                                            {row[header]}
+                                          </td>
+                                        )
+                                      )}
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
 
-                      {skatingData.sections.length === 0 && (
-                        <p className="text-gray-500 italic">
-                          {t("competition.noSkating")}
-                        </p>
-                      )}
+                        {skatingData.sections.length === 0 && (
+                          <p className="text-gray-500 italic">
+                            {t("competition.noSkating")}
+                          </p>
+                        )}
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+
+              {/* Download CSV Tab */}
+              {activeTab === "download" && (
+                <div>
+                  <h2 className="text-xl font-semibold text-gray-800 mb-4">
+                    {t("competition.download") || "Download Competition Data"}
+                  </h2>
+
+                  <p className="text-gray-700 mb-4">
+                    {t("competition.downloadDescription") ||
+                      "Download the complete competition data or select specific data categories to include in your download."}
+                  </p>
+
+                  {!isLoadingMarks && (
+                    <div className="mb-6 space-y-4">
+                      <button
+                        onClick={handleDownloadCSV}
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors flex items-center"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5 mr-2"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                          />
+                        </svg>
+                        {t("competition.downloadZIP") ||
+                          "Download Complete ZIP Archive"}
+                      </button>
+
+                      <div className="mt-4">
+                        <h3 className="text-lg font-medium text-gray-800 mb-2">
+                          {t("competition.downloadCustom") ||
+                            "Custom Downloads:"}
+                        </h3>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          <a
+                            href={`/api/download-competition?id=${id}&fields=marks,results`}
+                            className="inline-flex items-center bg-blue-100 hover:bg-blue-200 text-blue-800 font-medium py-2 px-4 rounded transition-colors"
+                            download
+                          >
+                            {t("competition.downloadMarksResults") ||
+                              "Marks & Results"}
+                          </a>
+                          <a
+                            href={`/api/download-competition?id=${id}&fields=judges,info`}
+                            className="inline-flex items-center bg-blue-100 hover:bg-blue-200 text-blue-800 font-medium py-2 px-4 rounded transition-colors"
+                            download
+                          >
+                            {t("competition.downloadJudgesInfo") ||
+                              "Judges & Officials"}
+                          </a>
+                          <a
+                            href={`/api/download-competition?id=${id}&fields=results,skating`}
+                            className="inline-flex items-center bg-blue-100 hover:bg-blue-200 text-blue-800 font-medium py-2 px-4 rounded transition-colors"
+                            download
+                          >
+                            {t("competition.downloadResultsSkating") ||
+                              "Results & Skating"}
+                          </a>
+                          <a
+                            href={`/api/download-competition?id=${id}&fields=info`}
+                            className="inline-flex items-center bg-blue-100 hover:bg-blue-200 text-blue-800 font-medium py-2 px-4 rounded transition-colors"
+                            download
+                          >
+                            {t("competition.downloadInfoOnly") ||
+                              "Competition Info Only"}
+                          </a>
+                        </div>
+                      </div>
                     </div>
                   )}
+
+                  <div className="mt-6 bg-gray-50 p-4 rounded-md border border-gray-200">
+                    <h3 className="text-lg font-medium text-gray-800 mb-2">
+                      {t("competition.zipContents") ||
+                        "Available Download Categories:"}
+                    </h3>
+                    <ul className="list-disc list-inside text-gray-600 space-y-1">
+                      <li>
+                        {t("competition.competitionDetails") ||
+                          "Competition details (info)"}
+                      </li>
+                      <li>
+                        {t("competition.judgesFile") ||
+                          "Judges information (judges)"}
+                      </li>
+                      <li>
+                        {t("competition.resultsFiles") ||
+                          "Results by category (results)"}
+                      </li>
+                      <li>
+                        {t("competition.marksFiles") ||
+                          "Marks data - X-es (marks)"}
+                      </li>
+                      <li>
+                        {t("competition.skatingFiles") ||
+                          "Skating data (skating)"}
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               )}
             </div>

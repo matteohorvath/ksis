@@ -7,6 +7,7 @@
     "upcomingCompetitions": "Közelgő Versenyek",
     "previousCompetitions": "Korábbi Versenyek",
     "rankings": "Ranglista",
+    "statistics": "Statisztikák",
     "back": "Vissza a Versenyekhez"
   },
   "main": {
@@ -119,5 +120,15 @@
       "T": "10 Tánc"
     },
     "dataSource": "Adatok forrása"
+  },
+  "statistics": {
+    "title": "Verseny Statisztikák",
+    "lastUpdated": "Adatok utolsó frissítése: ",
+    "totalEvents": "Összes Verseny",
+    "yearsTracked": "Követett Évek",
+    "averageEventsPerYear": "Átlagos Verseny/Év",
+    "eventsPerYear": "Versenyek Évenként",
+    "topJudges": "Legtöbbet Résztvevő Bírák",
+    "topParticipants": "Legtöbbet Résztvevő Versenyzők"
   }
 }
