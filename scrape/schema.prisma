@@ -33,6 +33,7 @@ model Event {
   rounds        Round[]
   judges        Judge[]
   results       Result[]
+  falseData     Boolean     @default(false)
 }
 
 model Result {

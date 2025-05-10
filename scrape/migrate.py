@@ -35,7 +35,7 @@ competitions = []
 for file in DATA_DIR.glob("*.json"):
     with open(file, "r") as f:
         competitions.append(json.load(f))
-
+#competitions = competitions[1285:]
 # --- Create database ---
 db = Prisma()
 
@@ -44,8 +44,9 @@ async def main():
     await db.connect()
     try:
         await create_judges()
-        await create_competitions()
         await create_participants()
+        await create_competitions()
+
         await check_participants()
         await check_judges()
     finally:
@@ -66,7 +67,7 @@ async def create_competitions():
                 "location": competition["location"]
             }
         )
-        #await create_event(competitionEntity, competition)
+        await create_event(competitionEntity, competition)
 
 async def create_event(competitionEntity, competition):
         judges = competition["judges"]
@@ -81,10 +82,12 @@ async def create_event(competitionEntity, competition):
         for judge in judges:
             judgeEntity = await db.judge.find_first(where={"name": judge["name"]})
             await db.event.update(where={"id": eventEntity.id}, data={"judges": {'connect': {"id": judgeEntity.id}}})
-        #await create_rounds(eventEntity, competition["sections"])
-        #await create_results(competition["results"], eventEntity)
+        
+        await create_results(competition["results"], eventEntity)
+        await create_rounds(eventEntity, competition)
 
-async def create_rounds(eventEntity, rounds):
+async def create_rounds(eventEntity, competition):
+    rounds = competition["sections"]
     for _round in rounds:
         roundEntity = await db.round.create(
             data={
@@ -92,7 +95,70 @@ async def create_rounds(eventEntity, rounds):
                 "eventId": eventEntity.id
             }
         )
+        await create_marks(roundEntity, _round, competition)
+
+async def create_marks(roundEntity, _round, competition):
+    danceHeaders = _round["headers"][2:-3]
+    judgeChars = competition["judges"]
+    judgeCharString = "".join([judge["id"] for judge in judgeChars])
+    judges = []
+    for judge in judgeChars:
+        judgeEntity = await db.judge.find_first(where={"name": judge["name"]})
+        judges.append(judgeEntity)
+    eventEntity = await db.event.find_first(where={"name": competition["title"]})
+    try:
+        for row in _round["rows"]:
+            participantId = row["FordulóRsz."]
+            #find name in compeition results based on id 
+        participantName = ""
+        for result in competition["results"]:
+            if result["number"] == participantId:
+                participantName = result["name"]
+                break
         
+        participantEntity = await db.participant.find_first(where={"name": participantName})
+        resultEntity = await db.result.find_first(where={"participantId": participantEntity.id, "eventId": eventEntity.id})
+        
+        for danceHeader in danceHeaders:
+            for i in range(len(judgeCharString)):
+                
+                try:
+                    proposedPlacement = int(row[danceHeader][i])
+                    mark = False
+                except:
+                    mark = row[danceHeader][i] == "X"
+                    proposedPlacement = 0
+                
+                markEntity = await db.mark.create(
+                    data={
+                        "round": {
+                            "connect": {"id": roundEntity.id}
+                        },
+                        "participant": {
+                            "connect": {"id": participantEntity.id}
+                        },
+                        "judge": {
+                            "connect": {"id": judges[i].id}
+                        },
+                        "judgeSign": judgeCharString[i],
+                        "mark": mark,
+                        "proposedPlacement": proposedPlacement,
+                        "danceType": danceHeader.split("/")[0],
+                        "result": {
+                            "connect": {"id": resultEntity.id}
+                        }
+                    }
+                )
+    except:
+        print(eventEntity.id, competition["title"],)
+        eventEntity.falseData = True
+        await db.event.update(where={"id": eventEntity.id}, data={"falseData": True})
+        
+    
+
+    
+
+
 
 async def create_participants():
     list_of_participants = []
@@ -123,7 +189,8 @@ async def check_participants():
 
 async def create_results(results, eventEntity):
     for result in results:
-        
+        participantEntity = await db.participant.find_first(where={"name": result["name"]})
+       
         resultEntity = await db.result.create(
             data={
                 "event": {
@@ -160,7 +227,6 @@ async def check_judges():
     #check alll competitions that the judges are in the database
     judges = await db.judge.find_many()
     namesOfJudges = [judge.name for judge in judges]
-    print(namesOfJudges)
     notThere = 0
     for competition in competitions:
         for judge in competition["judges"]:
