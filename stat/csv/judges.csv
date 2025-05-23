@@ -1,0 +1,480 @@
+id,name,location,link
+1,Horváth Ferenc,Orosháza,rozhodca.php?meno=Horváth Ferenc&mesto=Orosháza
+2,Szabó Anita,Szeged,rozhodca.php?meno=Szabó Anita&mesto=Szeged
+3,Molnár Anna,Jászberény,rozhodca.php?meno=Molnár Anna&mesto=Jászberény
+4,Novák Tamás,Szombathely,rozhodca.php?meno=Novák Tamás&mesto=Szombathely
+5,Szepesi József,Szentes,rozhodca.php?meno=Szepesi József&mesto=Szentes
+6,Emődi Zoltán,Debrecen,rozhodca.php?meno=Emődi Zoltán&mesto=Debrecen
+7,Eke Sarolta,Budapest,rozhodca.php?meno=Eke Sarolta&mesto=Budapest
+8,Dudás Tibor,Pécel,rozhodca.php?meno=Dudás Tibor&mesto=Pécel
+9,Zsuppán Alexandra,Budapest,rozhodca.php?meno=Zsuppán Alexandra&mesto=Budapest
+10,Simon Csaba,Miskolc,rozhodca.php?meno=Simon Csaba&mesto=Miskolc
+11,Somogyi Norbert,Horváthország,rozhodca.php?meno=Somogyi Norbert&mesto=Horváthország
+12,Bíróné Váradi Éva,Törökbálint,rozhodca.php?meno=Bíróné Váradi Éva&mesto=Törökbálint
+13,Földházi Péter,Budapest,rozhodca.php?meno=Földházi Péter&mesto=Budapest
+14,Horváth Zoltán,Budapest,rozhodca.php?meno=Horváth Zoltán&mesto=Budapest
+15,László-Németh Anikó,Szentes,rozhodca.php?meno=László-Németh Anikó&mesto=Szentes
+16,Terdik-Tasi Tímea,Nyíradony,rozhodca.php?meno=Terdik-Tasi Tímea&mesto=Nyíradony
+17,Zsilák Zsuzsanna,Szeged,rozhodca.php?meno=Zsilák Zsuzsanna&mesto=Szeged
+18,Jegonyán Okszána,Budapest,rozhodca.php?meno=Jegonyán Okszána&mesto=Budapest
+19,Kuzma Péter,Zalaegerszeg,rozhodca.php?meno=Kuzma Péter&mesto=Zalaegerszeg
+20,Lajtai Beatrix,Budapest,rozhodca.php?meno=Lajtai Beatrix&mesto=Budapest
+21,Balikóné Akkerman Éva,Budapest,rozhodca.php?meno=Balikóné Akkerman Éva&mesto=Budapest
+22,Püspöki Dávid,Szolnok,rozhodca.php?meno=Püspöki Dávid&mesto=Szolnok
+23,Süttő Roland,Miskolc,rozhodca.php?meno=Süttő Roland&mesto=Miskolc
+24,Dremák Éva,Debrecen,rozhodca.php?meno=Dremák Éva&mesto=Debrecen
+25,Gulyás Miklós,Békéscsaba,rozhodca.php?meno=Gulyás Miklós&mesto=Békéscsaba
+26,Kenyeres Csaba,Békés,rozhodca.php?meno=Kenyeres Csaba&mesto=Békés
+27,Kovács Franciska,Siófok,rozhodca.php?meno=Kovács Franciska&mesto=Siófok
+28,Bíró Csaba,Debrecen,rozhodca.php?meno=Bíró Csaba&mesto=Debrecen
+29,Rimányi Judit,Szombathely,rozhodca.php?meno=Rimányi Judit&mesto=Szombathely
+30,Szűcs Simon,Budapest,rozhodca.php?meno=Szűcs Simon&mesto=Budapest
+31,Vorobchenko Darya,Budapest,rozhodca.php?meno=Vorobchenko Darya&mesto=Budapest
+32,Zsom Olivér,Szeged,rozhodca.php?meno=Zsom Olivér&mesto=Szeged
+33,Kazi Gábor,Szeged,rozhodca.php?meno=Kazi Gábor&mesto=Szeged
+34,Püspöki-Markó Ágnes,Szolnok,rozhodca.php?meno=Püspöki-Markó Ágnes&mesto=Szolnok
+35,Horváthné Kriczki Zita,Orosháza,rozhodca.php?meno=Horváthné Kriczki Zita&mesto=Orosháza
+36,Dudley Katalin,Pécs,rozhodca.php?meno=Dudley Katalin&mesto=Pécs
+37,Jancsi Zsolt,Mohács,rozhodca.php?meno=Jancsi Zsolt&mesto=Mohács
+38,Kósa Roland,Budapest,rozhodca.php?meno=Kósa Roland&mesto=Budapest
+39,Magyari Róbert,Szeged,rozhodca.php?meno=Magyari Róbert&mesto=Szeged
+40,Süttõ Roland,Miskolc,rozhodca.php?meno=Süttõ Roland&mesto=Miskolc
+41,Szilnerné Györe Judit Ágnes,Székesfehérvár,rozhodca.php?meno=Szilnerné Györe Judit Ágnes&mesto=Székesfehérvár
+42,Tóth Orsolya,Budapest,rozhodca.php?meno=Tóth Orsolya&mesto=Budapest
+43,Törökgyörgy József,Kistelek,rozhodca.php?meno=Törökgyörgy József&mesto=Kistelek
+44,Federico Filippone,Olaszország,rozhodca.php?meno=Federico Filippone&mesto=Olaszország
+45,Ankica Janjic,Horvátország,rozhodca.php?meno=Ankica Janjic&mesto=Horvátország
+46,Goran Knezevic,Szerbia,rozhodca.php?meno=Goran Knezevic&mesto=Szerbia
+47,Valeria Rahle Mbanwi,Szlovénia,rozhodca.php?meno=Valeria Rahle Mbanwi&mesto=Szlovénia
+48,Txus Pedrazo,Spanyolország,rozhodca.php?meno=Txus Pedrazo&mesto=Spanyolország
+49,Tóth István,Debrecen,rozhodca.php?meno=Tóth István&mesto=Debrecen
+50,Németh Péter,Budapest,rozhodca.php?meno=Németh Péter&mesto=Budapest
+51,Barbulszki Borisz,Ráckeve,rozhodca.php?meno=Barbulszki Borisz&mesto=Ráckeve
+52,Sándor Judit,Budapest,rozhodca.php?meno=Sándor Judit&mesto=Budapest
+53,László Csaba,Szentes,rozhodca.php?meno=László Csaba&mesto=Szentes
+54,Hajas Tibor,-,rozhodca.php?meno=Hajas Tibor&mesto=-
+55,Horváthné Krizsa Mária,Maglód,rozhodca.php?meno=Horváthné Krizsa Mária&mesto=Maglód
+56,Nagy Gyöngyi,Budapest,rozhodca.php?meno=Nagy Gyöngyi&mesto=Budapest
+57,Silvestri Andrea,Budapest,rozhodca.php?meno=Silvestri Andrea&mesto=Budapest
+58,Simonyi-Hornyák Hajnalka,Kaposvár,rozhodca.php?meno=Simonyi-Hornyák Hajnalka&mesto=Kaposvár
+59,Szilner Tibor,Székesfehérvár,rozhodca.php?meno=Szilner Tibor&mesto=Székesfehérvár
+60,Kiss Noel,Budapest,rozhodca.php?meno=Kiss Noel&mesto=Budapest
+61,Szijjártó Krisztina,Székesfehérvár,rozhodca.php?meno=Szijjártó Krisztina&mesto=Székesfehérvár
+62,Tóth Szilárd,Kiskunhalas,rozhodca.php?meno=Tóth Szilárd&mesto=Kiskunhalas
+63,Tóth Noémi,Románia,rozhodca.php?meno=Tóth Noémi&mesto=Románia
+64,Iwona Golczak,Lengyelország,rozhodca.php?meno=Iwona Golczak&mesto=Lengyelország
+65,Rade Janjic,Horvátország,rozhodca.php?meno=Rade Janjic&mesto=Horvátország
+66,Milan Placko,Szlovákia,rozhodca.php?meno=Milan Placko&mesto=Szlovákia
+67,Ivan Despotov,Bulgária,rozhodca.php?meno=Ivan Despotov&mesto=Bulgária
+68,Martin Pastor,Németország,rozhodca.php?meno=Martin Pastor&mesto=Németország
+69,Novák Zsuzsanna,Budapest,rozhodca.php?meno=Novák Zsuzsanna&mesto=Budapest
+70,Kiss Noel Attila,Debrecen,rozhodca.php?meno=Kiss Noel Attila&mesto=Debrecen
+71,Dr. Arnold Péter,Budapest,rozhodca.php?meno=Dr. Arnold Péter&mesto=Budapest
+72,Markó Ágnes,Hódmezővásárhely,rozhodca.php?meno=Markó Ágnes&mesto=Hódmezővásárhely
+73,Futó Károly,-,rozhodca.php?meno=Futó Károly&mesto=-
+74,Józsa János,-,rozhodca.php?meno=Józsa János&mesto=-
+75,Juhász Ágnes,-,rozhodca.php?meno=Juhász Ágnes&mesto=-
+76,Fabio Pilon,Italy,rozhodca.php?meno=Fabio Pilon&mesto=Italy
+77,Ludwig Wieshofer,Austria,rozhodca.php?meno=Ludwig Wieshofer&mesto=Austria
+78,Noemi Katalin Toth,Romania,rozhodca.php?meno=Noemi Katalin Toth&mesto=Romania
+79,Julius Schvarcz,Slovakia,rozhodca.php?meno=Julius Schvarcz&mesto=Slovakia
+80,Jaroslav Krticka,Czech Republic,rozhodca.php?meno=Jaroslav Krticka&mesto=Czech Republic
+81,Krzysztof Cisek,Poland,rozhodca.php?meno=Krzysztof Cisek&mesto=Poland
+82,Mauro Rossi,Spain,rozhodca.php?meno=Mauro Rossi&mesto=Spain
+83,Remigijus Suslavicius,Lithuania,rozhodca.php?meno=Remigijus Suslavicius&mesto=Lithuania
+84,Agnes Juhasz,Hungary,rozhodca.php?meno=Agnes Juhasz&mesto=Hungary
+85,Nadia Chantzidou,Greece,rozhodca.php?meno=Nadia Chantzidou&mesto=Greece
+86,Bíró Csaba István,Bocskaikert,rozhodca.php?meno=Bíró Csaba István&mesto=Bocskaikert
+87,Elekes Helga,Szombathely,rozhodca.php?meno=Elekes Helga&mesto=Szombathely
+88,Pap Balázs Ferenc,Szentes,rozhodca.php?meno=Pap Balázs Ferenc&mesto=Szentes
+89,Vidovenyecz Andrea,Szeged,rozhodca.php?meno=Vidovenyecz Andrea&mesto=Szeged
+90,Luigi Bodini,Grúzia,rozhodca.php?meno=Luigi Bodini&mesto=Grúzia
+91,Ramon Zedan,Románia,rozhodca.php?meno=Ramon Zedan&mesto=Románia
+92,Gombkötő Balázs,-,rozhodca.php?meno=Gombkötő Balázs&mesto=-
+93,Vas Zsolt,-,rozhodca.php?meno=Vas Zsolt&mesto=-
+94,Timerné Kvitová Veronika,Pécs,rozhodca.php?meno=Timerné Kvitová Veronika&mesto=Pécs
+95,Molnár Olivér,Budapest,rozhodca.php?meno=Molnár Olivér&mesto=Budapest
+96,Kozma Gábor,Budapest,rozhodca.php?meno=Kozma Gábor&mesto=Budapest
+97,Prepuk László,Budapest,rozhodca.php?meno=Prepuk László&mesto=Budapest
+98,Horváth Kristóf,Budapest,rozhodca.php?meno=Horváth Kristóf&mesto=Budapest
+99,Závodszky Péterné,Budapest,rozhodca.php?meno=Závodszky Péterné&mesto=Budapest
+100,Klinda Dénes,-,rozhodca.php?meno=Klinda Dénes&mesto=-
+101,Jenei Éva Evelin,Gyomaendrőd,rozhodca.php?meno=Jenei Éva Evelin&mesto=Gyomaendrőd
+102,Dr. Kisteleki Károly,Budapest,rozhodca.php?meno=Dr. Kisteleki Károly&mesto=Budapest
+103,Salamonné Kuzma Renáta,Zalaegerszeg,rozhodca.php?meno=Salamonné Kuzma Renáta&mesto=Zalaegerszeg
+104,Benkő Zsófia,Budapest,rozhodca.php?meno=Benkő Zsófia&mesto=Budapest
+105,Zsámboki Marcell,Budapest,rozhodca.php?meno=Zsámboki Marcell&mesto=Budapest
+106,Debreczeni Attila,Kőszeg,rozhodca.php?meno=Debreczeni Attila&mesto=Kőszeg
+107,Bódis-Nagy Katinka,Kaposvár,rozhodca.php?meno=Bódis-Nagy Katinka&mesto=Kaposvár
+108,Farkas Ádám,Szombathely,rozhodca.php?meno=Farkas Ádám&mesto=Szombathely
+109,Feledi Ildikó,Budapest,rozhodca.php?meno=Feledi Ildikó&mesto=Budapest
+110,Balikó Károly Józsefné,Budapest,rozhodca.php?meno=Balikó Károly Józsefné&mesto=Budapest
+111,Timer Péter,Pécs,rozhodca.php?meno=Timer Péter&mesto=Pécs
+112,Lekszikov Csaba,Nagykanizsa,rozhodca.php?meno=Lekszikov Csaba&mesto=Nagykanizsa
+113,Orosz-Szüllő Éva Katalin,Budapest,rozhodca.php?meno=Orosz-Szüllő Éva Katalin&mesto=Budapest
+114,Lengyel Zoltán,Szeged,rozhodca.php?meno=Lengyel Zoltán&mesto=Szeged
+115,Valc Szabolcs,Budapest,rozhodca.php?meno=Valc Szabolcs&mesto=Budapest
+116,Krekuska Ferenc,Budapest,rozhodca.php?meno=Krekuska Ferenc&mesto=Budapest
+117,Kovács Sándor,Budapest,rozhodca.php?meno=Kovács Sándor&mesto=Budapest
+118,Zsámboki Marcell István,Budapest,rozhodca.php?meno=Zsámboki Marcell István&mesto=Budapest
+119,Mantovay Viktória,Érd,rozhodca.php?meno=Mantovay Viktória&mesto=Érd
+120,Varga Ildikó,Budapest,rozhodca.php?meno=Varga Ildikó&mesto=Budapest
+121,Andrea Silvestri,Budapest,rozhodca.php?meno=Andrea Silvestri&mesto=Budapest
+122,Vozár Boglárka,Balástya,rozhodca.php?meno=Vozár Boglárka&mesto=Balástya
+123,Móczó János,Szeged,rozhodca.php?meno=Móczó János&mesto=Szeged
+124,Horváthné Berta Ágota,Szombathely,rozhodca.php?meno=Horváthné Berta Ágota&mesto=Szombathely
+125,Chris Zammit,Málta,rozhodca.php?meno=Chris Zammit&mesto=Málta
+126,Alberto Valloni,Olaszország,rozhodca.php?meno=Alberto Valloni&mesto=Olaszország
+127,Siret Siilak,Ausztria,rozhodca.php?meno=Siret Siilak&mesto=Ausztria
+128,Valdis Skutans,Lettország,rozhodca.php?meno=Valdis Skutans &mesto=Lettország
+129,Salvatore Todaro,Bulgária,rozhodca.php?meno=Salvatore Todaro&mesto=Bulgária
+130,Jean-Luc Habel,Franciaország,rozhodca.php?meno=Jean-Luc Habel&mesto=Franciaország
+131,Paraskevi Santorinaiou,Görögország,rozhodca.php?meno=Paraskevi Santorinaiou&mesto=Görögország
+132,Oleksandra Myshko,Ukrajna,rozhodca.php?meno=Oleksandra Myshko&mesto=Ukrajna
+133,Novák Zsuzsa,Budapest,rozhodca.php?meno=Novák Zsuzsa&mesto=Budapest
+134,Závodszky Zsuzsa,Budapest,rozhodca.php?meno=Závodszky Zsuzsa&mesto=Budapest
+135,Imre Pavel,Szlovákia,rozhodca.php?meno=Imre Pavel&mesto=Szlovákia
+136,Lemákné Szabó Etelka,Budapest,rozhodca.php?meno=Lemákné Szabó Etelka&mesto=Budapest
+137,Szalay Attila,Budapest,rozhodca.php?meno=Szalay Attila&mesto=Budapest
+138,Ádám Gábor,Szeged - Szentmihály,rozhodca.php?meno=Ádám Gábor&mesto=Szeged - Szentmihály
+139,Gellai Tamás,Budapest,rozhodca.php?meno=Gellai Tamás&mesto=Budapest
+140,Barna Lilla,Szentes,rozhodca.php?meno=Barna Lilla&mesto=Szentes
+141,Schvarcz Július,Slovakia,rozhodca.php?meno=Schvarcz Július&mesto=Slovakia
+142,Balogh Csongor,Hungary,rozhodca.php?meno=Balogh Csongor&mesto=Hungary
+143,Mayerné Zsiros Gabriella,Felgyő,rozhodca.php?meno=Mayerné Zsiros Gabriella&mesto=Felgyő
+144,Verebélyi Viktória,Szentes,rozhodca.php?meno=Verebélyi Viktória&mesto=Szentes
+145,Bana Lilla,-,rozhodca.php?meno=Bana Lilla&mesto=-
+146,Debreceni Attila,-,rozhodca.php?meno=Debreceni Attila&mesto=-
+147,Dalotti Tibor,-,rozhodca.php?meno=Dalotti Tibor&mesto=-
+148,Meszlényi Viktória,-,rozhodca.php?meno=Meszlényi Viktória&mesto=-
+149,Fülöp Milán,-,rozhodca.php?meno=Fülöp Milán&mesto=-
+150,Molnár József,Jászberény,rozhodca.php?meno=Molnár József&mesto=Jászberény
+151,Tóth Mónika,Zalaegyerszeg,rozhodca.php?meno=Tóth Mónika&mesto=Zalaegyerszeg
+152,Várhegyiné Nagy Rózsa,Hungary,rozhodca.php?meno=Várhegyiné Nagy Rózsa&mesto=Hungary
+153,Jebelóczki Richárd,Nyíregyháza,rozhodca.php?meno=Jebelóczki Richárd&mesto=Nyíregyháza
+154,Török-Zsuppán Alexandra,Budapest,rozhodca.php?meno=Török-Zsuppán Alexandra&mesto=Budapest
+155,Oláhné Molnár Anna,Szolnok,rozhodca.php?meno=Oláhné Molnár Anna&mesto=Szolnok
+156,Baráth Péter,Miskolc,rozhodca.php?meno=Baráth Péter&mesto=Miskolc
+157,Barsi Mónika Éva,-,rozhodca.php?meno=Barsi Mónika Éva&mesto=-
+158,Dr. Hetei Raymond Zoltán,Budapest,rozhodca.php?meno=Dr. Hetei Raymond Zoltán&mesto=Budapest
+159,Ingrid Fussek,Austria,rozhodca.php?meno=Ingrid Fussek&mesto=Austria
+160,Zsilák Zsuzsanna Edit,Szeged,rozhodca.php?meno=Zsilák Zsuzsanna Edit&mesto=Szeged
+161,Norbert Somogyi,Horvátország,rozhodca.php?meno=Norbert Somogyi&mesto=Horvátország
+162,Milka Camdzic,Horvátország,rozhodca.php?meno=Milka Camdzic&mesto=Horvátország
+163,Őze László,Szeged,rozhodca.php?meno=Őze László&mesto=Szeged
+164,Kuzma Renáta,Zalaegerszeg,rozhodca.php?meno=Kuzma Renáta&mesto=Zalaegerszeg
+165,Pap Balázs,Szentes,rozhodca.php?meno=Pap Balázs&mesto=Szentes
+166,Havas Márta Gyöngyvér,Debrecen,rozhodca.php?meno=Havas Márta Gyöngyvér&mesto=Debrecen
+167,Pálinkó Lujza,Szeged,rozhodca.php?meno=Pálinkó Lujza&mesto=Szeged
+168,Terdik- Tasi Tímea,Debrecen,rozhodca.php?meno=Terdik- Tasi Tímea&mesto=Debrecen
+169,Balázs Zsombor,Nyíregyháza,rozhodca.php?meno=Balázs Zsombor&mesto=Nyíregyháza
+170,Faludiné Lovas Henriette,Szombathely,rozhodca.php?meno=Faludiné Lovas Henriette&mesto=Szombathely
+171,Sólyom Fanni,Budapest,rozhodca.php?meno=Sólyom Fanni&mesto=Budapest
+172,Felczán Béla,Békéscsaba,rozhodca.php?meno=Felczán Béla&mesto=Békéscsaba
+173,Tóth Mónika Éva,Zalaegerszeg,rozhodca.php?meno=Tóth Mónika Éva&mesto=Zalaegerszeg
+174,Markó Róbert,Budapest,rozhodca.php?meno=Markó Róbert&mesto=Budapest
+175,Erdélyi Szilárd Dénes,Budapest,rozhodca.php?meno=Erdélyi Szilárd Dénes&mesto=Budapest
+176,Kovács  Sándor,Budapest,rozhodca.php?meno=Kovács  Sándor&mesto=Budapest
+177,Balázs Erik Gábor,Kaposvár,rozhodca.php?meno=Balázs Erik Gábor&mesto=Kaposvár
+178,Kovács Máté,Budapest,rozhodca.php?meno=Kovács Máté&mesto=Budapest
+179,Budai Attila,-,rozhodca.php?meno=Budai Attila&mesto=-
+180,Balikó Károlyné,Budapest,rozhodca.php?meno=Balikó Károlyné&mesto=Budapest
+181,Szalai Ágnes,-,rozhodca.php?meno=Szalai Ágnes&mesto=-
+182,Becz Attila,Budapest,rozhodca.php?meno=Becz Attila&mesto=Budapest
+183,Dr. Török József,Ostoros,rozhodca.php?meno=Dr. Török József&mesto=Ostoros
+184,Jenei Éva,Budapest,rozhodca.php?meno=Jenei Éva&mesto=Budapest
+185,Balassa Júlia,Nagykanizsa,rozhodca.php?meno=Balassa Júlia&mesto=Nagykanizsa
+186,Berkes Sándor,Nagybajom,rozhodca.php?meno=Berkes Sándor&mesto=Nagybajom
+187,Jánosi László,Tóalmás,rozhodca.php?meno=Jánosi László&mesto=Tóalmás
+188,Meretei - Simon Beáta,Zalaegerszeg,rozhodca.php?meno=Meretei - Simon Beáta&mesto=Zalaegerszeg
+189,Simonyi Hornyák Hajnalka,-,rozhodca.php?meno=Simonyi Hornyák Hajnalka&mesto=-
+190,Törökgyörgy Józsefné,Kistelek,rozhodca.php?meno=Törökgyörgy Józsefné&mesto=Kistelek
+191,Mihály János,Budapest,rozhodca.php?meno=Mihály János&mesto=Budapest
+192,Skufca-Törökgyörgy Melinda,Kistelek,rozhodca.php?meno=Skufca-Törökgyörgy Melinda&mesto=Kistelek
+193,Kósa Róland,Budapest,rozhodca.php?meno=Kósa Róland&mesto=Budapest
+194,Váradi Martina,-,rozhodca.php?meno=Váradi Martina&mesto=-
+195,Jurásné Miklósi Ivett,-,rozhodca.php?meno=Jurásné Miklósi Ivett&mesto=-
+196,Tábori Ármin,-,rozhodca.php?meno=Tábori Ármin&mesto=-
+197,Miklósi Ivett,Hajdúböszörmény,rozhodca.php?meno=Miklósi Ivett&mesto=Hajdúböszörmény
+198,Barát Enikő,Szentes,rozhodca.php?meno=Barát Enikő&mesto=Szentes
+199,Magera Nikoletta,Budapest,rozhodca.php?meno=Magera Nikoletta&mesto=Budapest
+200,Kazimierz Kurzak,Lengyelország,rozhodca.php?meno=Kazimierz Kurzak&mesto=Lengyelország
+201,Stefan Horváth,Szlovákia,rozhodca.php?meno=Stefan Horváth&mesto=Szlovákia
+202,Jegesné Hornyák Hajnalka,Kaposvár,rozhodca.php?meno=Jegesné Hornyák Hajnalka&mesto=Kaposvár
+203,Vass Zsolt,Budapest,rozhodca.php?meno=Vass Zsolt&mesto=Budapest
+204,Balázs Márk,Érd,rozhodca.php?meno=Balázs Márk&mesto=Érd
+205,Barbulszki Borisz Dr.,Budapest,rozhodca.php?meno=Barbulszki Borisz Dr.&mesto=Budapest
+206,Andó Lórántné,Salgótarján,rozhodca.php?meno=Andó Lórántné&mesto=Salgótarján
+207,Vladislav Silde,Oroszország,rozhodca.php?meno=Vladislav Silde&mesto=Oroszország
+208,Török József dr.,Ostoros,rozhodca.php?meno=Török József dr.&mesto=Ostoros
+209,Vozár Bolglárka,-,rozhodca.php?meno=Vozár Bolglárka&mesto=-
+210,Stefán Horváth,Szlovákia,rozhodca.php?meno=Stefán Horváth&mesto=Szlovákia
+211,Sándor Zoltán,-,rozhodca.php?meno=Sándor Zoltán&mesto=-
+212,dr Borisz Barbulszki,Ráckeve,rozhodca.php?meno=dr Borisz Barbulszki&mesto=Ráckeve
+213,Szilnerné Györe Judit,Székesfehérvár,rozhodca.php?meno=Szilnerné Györe Judit&mesto=Székesfehérvár
+214,Havas Márta,Debrecen,rozhodca.php?meno=Havas Márta&mesto=Debrecen
+215,Szatmári-Nagy Szilvia,Szentes,rozhodca.php?meno=Szatmári-Nagy Szilvia&mesto=Szentes
+216,Vidovanyecz Andrea,Szeged,rozhodca.php?meno=Vidovanyecz Andrea&mesto=Szeged
+217,Süttő-Tombácz Anikó,Miskolc,rozhodca.php?meno=Süttő-Tombácz Anikó&mesto=Miskolc
+218,Faludyné Lovas Henriette,Szombathely,rozhodca.php?meno=Faludyné Lovas Henriette&mesto=Szombathely
+219,Migács Nikolett,Sellye,rozhodca.php?meno=Migács Nikolett&mesto=Sellye
+220,Balatincz Dóra,Kaposvár,rozhodca.php?meno=Balatincz Dóra&mesto=Kaposvár
+221,Krautner Éva,Szigetvár,rozhodca.php?meno=Krautner Éva&mesto=Szigetvár
+222,Mészárosné Karsai Eszter,Pécs,rozhodca.php?meno=Mészárosné Karsai Eszter&mesto=Pécs
+223,Török József Dr.,Ostoros,rozhodca.php?meno=Török József Dr.&mesto=Ostoros
+224,V. Nagy Rózsa,Budapest,rozhodca.php?meno=V. Nagy Rózsa&mesto=Budapest
+225,Babenyecz Erika,Kiskőrös,rozhodca.php?meno=Babenyecz Erika&mesto=Kiskőrös
+226,Balázs Erik,Dombovár,rozhodca.php?meno=Balázs Erik&mesto=Dombovár
+227,Várhegyi István,Zsámbék,rozhodca.php?meno=Várhegyi István&mesto=Zsámbék
+228,Tomás Tanka,Szlovákia,rozhodca.php?meno=Tomás Tanka&mesto=Szlovákia
+229,Peter Ivanic,Szlovákia,rozhodca.php?meno=Peter Ivanic&mesto=Szlovákia
+230,Petra Matschullat-Horn,Germany,rozhodca.php?meno=Petra Matschullat-Horn&mesto=Germany
+231,Luca Bussoletti,Italy,rozhodca.php?meno=Luca Bussoletti&mesto=Italy
+232,Valeria Mangra,Romania,rozhodca.php?meno=Valeria Mangra&mesto=Romania
+233,Ron Hoorn,Netherlands,rozhodca.php?meno=Ron Hoorn&mesto=Netherlands
+234,Antun Marki,Croatia,rozhodca.php?meno=Antun Marki&mesto=Croatia
+235,Mirco D Agostino,Italy,rozhodca.php?meno=Mirco D Agostino&mesto=Italy
+236,Liudmila Tsyrkun,Belarus,rozhodca.php?meno=Liudmila Tsyrkun&mesto=Belarus
+237,Nagymihály Balázs,-,rozhodca.php?meno=Nagymihály Balázs&mesto=-
+238,László Attila,Budapest,rozhodca.php?meno=László Attila&mesto=Budapest
+239,dr. Kisteleki Károly,Budapest,rozhodca.php?meno=dr. Kisteleki Károly&mesto=Budapest
+240,Vörös Péter,Budapest,rozhodca.php?meno=Vörös Péter&mesto=Budapest
+241,Kurt Findhammer,-,rozhodca.php?meno=Kurt Findhammer&mesto=-
+242,Karel Bank,Csehország,rozhodca.php?meno=Karel Bank&mesto=Csehország
+243,Horváth  Zoltán,Maglód,rozhodca.php?meno=Horváth  Zoltán&mesto=Maglód
+244,Kisteleki Károly dr.,Budapest,rozhodca.php?meno=Kisteleki Károly dr.&mesto=Budapest
+245,Dr. Hetei Zoltán,Budapest,rozhodca.php?meno=Dr. Hetei Zoltán&mesto=Budapest
+246,Vorobchenko Daria,Budapest,rozhodca.php?meno=Vorobchenko Daria&mesto=Budapest
+247,Miroslav Balun,Slovakia,rozhodca.php?meno=Miroslav Balun&mesto=Slovakia
+248,Larisa Davydova,Russian Federation,rozhodca.php?meno=Larisa Davydova&mesto=Russian Federation
+249,Hendrik Heneke,Germany,rozhodca.php?meno=Hendrik Heneke&mesto=Germany
+250,Giedrius Januskevicius,Lithuania,rozhodca.php?meno=Giedrius Januskevicius&mesto=Lithuania
+251,Jaroslav Kucera,Czech Republic,rozhodca.php?meno=Jaroslav Kucera&mesto=Czech Republic
+252,Judit Sandor,Hungary,rozhodca.php?meno=Judit Sandor&mesto=Hungary
+253,Robert Wota,Poland,rozhodca.php?meno=Robert Wota&mesto=Poland
+254,Szalkai-Szabó Gábor,Csongrád,rozhodca.php?meno=Szalkai-Szabó Gábor&mesto=Csongrád
+255,Dr. Hetei Rajmond Zoltán,Budapest,rozhodca.php?meno=Dr. Hetei Rajmond Zoltán&mesto=Budapest
+256,Páli Viktória,Szentes,rozhodca.php?meno=Páli Viktória&mesto=Szentes
+257,Dr. Török Dániel,Pécs,rozhodca.php?meno=Dr. Török Dániel&mesto=Pécs
+258,Pestality Bianka,Baja,rozhodca.php?meno=Pestality Bianka&mesto=Baja
+259,Alexey Litvinov,Oroszország,rozhodca.php?meno=Alexey Litvinov&mesto=Oroszország
+260,Frederic Mosa,Franciaország,rozhodca.php?meno=Frederic Mosa&mesto=Franciaország
+261,Pietro Braga,Olaszország,rozhodca.php?meno=Pietro Braga&mesto=Olaszország
+262,Virgil Grigore,Románia,rozhodca.php?meno=Virgil Grigore&mesto=Románia
+263,Szabó Norbert,Debrecen,rozhodca.php?meno=Szabó Norbert&mesto=Debrecen
+264,Süttő -Tombácz Anikó,Miskolc,rozhodca.php?meno=Süttő -Tombácz Anikó&mesto=Miskolc
+265,Pavel Imre,-,rozhodca.php?meno=Pavel Imre&mesto=-
+266,Simon Szucs,Hungary,rozhodca.php?meno=Simon Szucs&mesto=Hungary
+267,Marco Pasqualini,Italy,rozhodca.php?meno=Marco Pasqualini&mesto=Italy
+268,Dr Barbulszki Borisz,Ráckeve,rozhodca.php?meno=Dr Barbulszki Borisz&mesto=Ráckeve
+269,Andrej Micunek,Szlovákia,rozhodca.php?meno=Andrej Micunek&mesto=Szlovákia
+270,Holger Thomas Nitsche,Germany,rozhodca.php?meno=Holger Thomas Nitsche&mesto=Germany
+271,Luca Baricchi,Italy,rozhodca.php?meno=Luca Baricchi&mesto=Italy
+272,Cristian Parnescu,Romania,rozhodca.php?meno=Cristian Parnescu&mesto=Romania
+273,Petr Horácek,Slovakia,rozhodca.php?meno=Petr Horácek&mesto=Slovakia
+274,Marko Vodnik,Slovenia,rozhodca.php?meno=Marko Vodnik&mesto=Slovenia
+275,Helmut Hanke,Austria,rozhodca.php?meno=Helmut Hanke&mesto=Austria
+276,Sergej Milicija,Bosnia And Herzegovina,rozhodca.php?meno=Sergej Milicija&mesto=Bosnia And Herzegovina
+277,Beatrix Lajtai,Hungary,rozhodca.php?meno=Beatrix Lajtai&mesto=Hungary
+278,Judit Rimányi,Hungary,rozhodca.php?meno=Judit Rimányi&mesto=Hungary
+279,Csaba Bíró,Hungary,rozhodca.php?meno=Csaba Bíró&mesto=Hungary
+280,Faluvégi András Dr.,Fülöp,rozhodca.php?meno=Faluvégi András Dr.&mesto=Fülöp
+281,Lidziya Kats-Lazarava,Belarus,rozhodca.php?meno=Lidziya Kats-Lazarava&mesto=Belarus
+282,Zsuzsanna Zsilak,Hungary,rozhodca.php?meno=Zsuzsanna Zsilak&mesto=Hungary
+283,Vorobchenco Darya,-,rozhodca.php?meno=Vorobchenco Darya&mesto=-
+284,Paolo Santin,Olaszország,rozhodca.php?meno=Paolo Santin&mesto=Olaszország
+285,Tímer Péter,Pécs,rozhodca.php?meno=Tímer Péter&mesto=Pécs
+286,Borisz Barbulszki,Ráckeve,rozhodca.php?meno=Borisz Barbulszki&mesto=Ráckeve
+287,Schwartz Péter,Szentes,rozhodca.php?meno=Schwartz Péter&mesto=Szentes
+288,Orosz-Szüllő Éva,Gyömrő,rozhodca.php?meno=Orosz-Szüllő Éva&mesto=Gyömrő
+289,Tombácz Anikó,Miskolc,rozhodca.php?meno=Tombácz Anikó&mesto=Miskolc
+290,Szalkai Szabó Gábor,Csongrád,rozhodca.php?meno=Szalkai Szabó Gábor&mesto=Csongrád
+291,Szarvas Tibor,Debrecen,rozhodca.php?meno=Szarvas Tibor&mesto=Debrecen
+292,Nenad Kircanski,Serbia,rozhodca.php?meno=Nenad Kircanski&mesto=Serbia
+293,Alexandr Melnikov,Russian Federation,rozhodca.php?meno=Alexandr Melnikov&mesto=Russian Federation
+294,Corina Alexandra Vlad,Romania,rozhodca.php?meno=Corina Alexandra Vlad&mesto=Romania
+295,Jerry Abrate,Olaszország,rozhodca.php?meno=Jerry Abrate&mesto=Olaszország
+296,Faludiné Lovas Henrietta,Szombathely,rozhodca.php?meno=Faludiné Lovas Henrietta&mesto=Szombathely
+297,Faludiné Lovas Henriett,Szombathely,rozhodca.php?meno=Faludiné Lovas Henriett&mesto=Szombathely
+298,Dragan Rancev,Szerbia,rozhodca.php?meno=Dragan Rancev&mesto=Szerbia
+299,Julius Schwarcz,Szlovákia,rozhodca.php?meno=Julius Schwarcz&mesto=Szlovákia
+300,Goran Knezevics,Szerbia,rozhodca.php?meno=Goran Knezevics&mesto=Szerbia
+301,Püspöki -Markó Ágnes,-,rozhodca.php?meno=Püspöki -Markó Ágnes&mesto=-
+302,Roman Mayer,Austria,rozhodca.php?meno=Roman Mayer&mesto=Austria
+303,Andriy Polyvka,Ukraine,rozhodca.php?meno=Andriy Polyvka&mesto=Ukraine
+304,Boris Odikadze,Israel,rozhodca.php?meno=Boris Odikadze&mesto=Israel
+305,Asis Khadjeh-Nouri,Germany,rozhodca.php?meno=Asis Khadjeh-Nouri&mesto=Germany
+306,Svetlana Gozun,Moldova,rozhodca.php?meno=Svetlana Gozun&mesto=Moldova
+307,Mircea Gavrila,Romania,rozhodca.php?meno=Mircea Gavrila&mesto=Romania
+308,Barbara Nagode-Ambroz,Slovenia,rozhodca.php?meno=Barbara Nagode-Ambroz&mesto=Slovenia
+309,Matovay Viktória,Érd,rozhodca.php?meno=Matovay Viktória&mesto=Érd
+310,Orosz-Szüllő József,Budapest,rozhodca.php?meno=Orosz-Szüllő József&mesto=Budapest
+311,Szilnerné Györe Juditt,Székesfehérvár,rozhodca.php?meno=Szilnerné Györe Juditt&mesto=Székesfehérvár
+312,Petr Bartunek,Czech Republic,rozhodca.php?meno=Petr Bartunek&mesto=Czech Republic
+313,Cedric Degroot,Belgium,rozhodca.php?meno=Cedric Degroot&mesto=Belgium
+314,Henriette Faludine Lovas,Hungary,rozhodca.php?meno=Henriette Faludine Lovas&mesto=Hungary
+315,Diana Meshkova,Bulgaria,rozhodca.php?meno=Diana Meshkova&mesto=Bulgaria
+316,Benkõ Zsófia,Budapest,rozhodca.php?meno=Benkõ Zsófia&mesto=Budapest
+317,Alessandro Garofolo,Olaszország,rozhodca.php?meno=Alessandro Garofolo&mesto=Olaszország
+318,Alexandr Muretov,Azerbajdzsán,rozhodca.php?meno=Alexandr Muretov&mesto=Azerbajdzsán
+319,Guy Jottay,Belgium,rozhodca.php?meno=Guy Jottay&mesto=Belgium
+320,Sergiy Kravchuk,Ukrajna,rozhodca.php?meno=Sergiy Kravchuk&mesto=Ukrajna
+321,Kristina Horvatova,Szlovákia,rozhodca.php?meno=Kristina Horvatova&mesto=Szlovákia
+322,Natalia Kulagina,Oroszország,rozhodca.php?meno=Natalia Kulagina&mesto=Oroszország
+323,Vasile Constantin,Románia,rozhodca.php?meno=Vasile Constantin&mesto=Románia
+324,Istvan Toth,Budapest,rozhodca.php?meno=Istvan Toth&mesto=Budapest
+325,Kapronczai Balázs,Palkonya,rozhodca.php?meno=Kapronczai Balázs&mesto=Palkonya
+326,Luisa Barbieri,Olaszország,rozhodca.php?meno=Luisa Barbieri&mesto=Olaszország
+327,Hermann Götz,Ausztria,rozhodca.php?meno=Hermann Götz&mesto=Ausztria
+328,Fredi Novak,Szlovénia,rozhodca.php?meno=Fredi Novak&mesto=Szlovénia
+329,Lubos Novotny,Csehország,rozhodca.php?meno=Lubos Novotny&mesto=Csehország
+330,Agnes Schneider,Ausztria,rozhodca.php?meno=Agnes Schneider&mesto=Ausztria
+331,Horváthné Krizcki Zita,Orosháza,rozhodca.php?meno=Horváthné Krizcki Zita&mesto=Orosháza
+332,Simonyi - Hornyák Hajnalka,Kaposvár,rozhodca.php?meno=Simonyi - Hornyák Hajnalka&mesto=Kaposvár
+333,Szijártó Krisztina,Székesfehérvár,rozhodca.php?meno=Szijártó Krisztina&mesto=Székesfehérvár
+334,Varga Gergely,Budapest,rozhodca.php?meno=Varga Gergely&mesto=Budapest
+335,Szalai Attila,Budapest,rozhodca.php?meno=Szalai Attila&mesto=Budapest
+336,Niko Basaric,Szlovénia,rozhodca.php?meno=Niko Basaric&mesto=Szlovénia
+337,Marcin Scieglinski,Lengyelország,rozhodca.php?meno=Marcin Scieglinski&mesto=Lengyelország
+338,Jegonyán Okszana,Budapest,rozhodca.php?meno=Jegonyán Okszana&mesto=Budapest
+339,Krekusa Ferenc,Budapest,rozhodca.php?meno=Krekusa Ferenc&mesto=Budapest
+340,Józsa Péter,Pécs,rozhodca.php?meno=Józsa Péter&mesto=Pécs
+341,Alessandro De Sio,Olaszország,rozhodca.php?meno=Alessandro De Sio&mesto=Olaszország
+342,Yavor Valchev,Albánia,rozhodca.php?meno=Yavor Valchev&mesto=Albánia
+343,Guy Rosen,Luxemburg,rozhodca.php?meno=Guy Rosen&mesto=Luxemburg
+344,Kurt Dvorak,Ausztria,rozhodca.php?meno=Kurt Dvorak&mesto=Ausztria
+345,Peter Pfluger,Ausztria,rozhodca.php?meno=Peter Pfluger&mesto=Ausztria
+346,Simonyi- Hornyák Hajnalka,Kaposvár,rozhodca.php?meno=Simonyi- Hornyák Hajnalka&mesto=Kaposvár
+347,Heidi Goetz,Ausztria,rozhodca.php?meno=Heidi Goetz&mesto=Ausztria
+348,Galina Smirnowa,Lengyelország,rozhodca.php?meno=Galina Smirnowa&mesto=Lengyelország
+349,Nataliya Budkar,Oroszország,rozhodca.php?meno=Nataliya Budkar&mesto=Oroszország
+350,Daiva Dackeviciene,Litvánia,rozhodca.php?meno=Daiva Dackeviciene&mesto=Litvánia
+351,Ludmila Tsylents-Chojnacka,Fehéroroszország,rozhodca.php?meno=Ludmila Tsylents-Chojnacka&mesto=Fehéroroszország
+352,Johnny Olesen,Norvégia,rozhodca.php?meno=Johnny Olesen&mesto=Norvégia
+353,Mirea Decius,Románia,rozhodca.php?meno=Mirea Decius&mesto=Románia
+354,Stephan Horvath,Szlovákia,rozhodca.php?meno=Stephan Horvath&mesto=Szlovákia
+355,Victor Buenavida,Spain,rozhodca.php?meno=Victor Buenavida&mesto=Spain
+356,Ojars Bacis,Latvia,rozhodca.php?meno=Ojars Bacis &mesto=Latvia
+357,Guncey Yoney,Törökország,rozhodca.php?meno=Guncey Yoney&mesto=Törökország
+358,Horia Preda,Románia,rozhodca.php?meno=Horia Preda&mesto=Románia
+359,Yao Hu,Kína,rozhodca.php?meno=Yao Hu&mesto=Kína
+360,Juris Arajs,Lettország,rozhodca.php?meno=Juris Arajs&mesto=Lettország
+361,Arnold Péter,Budapest,rozhodca.php?meno=Arnold Péter&mesto=Budapest
+362,Meretei-Simon Beáta,Zalaegerszeg,rozhodca.php?meno=Meretei-Simon Beáta&mesto=Zalaegerszeg
+363,Jozsef Torokgyorgy,Hungary,rozhodca.php?meno=Jozsef Torokgyorgy&mesto=Hungary
+364,Benedetto Capraro,Spain,rozhodca.php?meno=Benedetto Capraro&mesto=Spain
+365,Katarina Baluchova,Slovakia,rozhodca.php?meno=Katarina Baluchova&mesto=Slovakia
+366,Frank Venables,England,rozhodca.php?meno=Frank Venables&mesto=England
+367,Peep Vardja,Estonia,rozhodca.php?meno=Peep Vardja&mesto=Estonia
+368,Hans-Juergen Burger,Germany,rozhodca.php?meno=Hans-Juergen Burger&mesto=Germany
+369,Marie Raiend,New Zealand,rozhodca.php?meno=Marie Raiend&mesto=New Zealand
+370,Marija Lazarevic,Serbia,rozhodca.php?meno=Marija Lazarevic&mesto=Serbia
+371,Yelena Nikon,Canada,rozhodca.php?meno=Yelena Nikon&mesto=Canada
+372,Tibor Kocsis,Slovakia,rozhodca.php?meno=Tibor Kocsis&mesto=Slovakia
+373,Jan Greets,Belgium,rozhodca.php?meno=Jan Greets&mesto=Belgium
+374,Eduard Slimak,Szlovákia,rozhodca.php?meno=Eduard Slimak&mesto=Szlovákia
+375,Alexander Tinkelman,Izrael,rozhodca.php?meno=Alexander Tinkelman&mesto=Izrael
+376,Jose Gomes,Portugália,rozhodca.php?meno=Jose Gomes&mesto=Portugália
+377,Kapronczai József,Szigetvár,rozhodca.php?meno=Kapronczai József&mesto=Szigetvár
+378,Monica Gomes,Portugália,rozhodca.php?meno=Monica Gomes&mesto=Portugália
+379,dr. Hetei Raymond Zoltán,Budapest,rozhodca.php?meno=dr. Hetei Raymond Zoltán&mesto=Budapest
+380,Igor Mikalkov,Oroszország,rozhodca.php?meno=Igor Mikalkov&mesto=Oroszország
+381,Jánosi lászló,Tóalmás,rozhodca.php?meno=Jánosi lászló&mesto=Tóalmás
+382,Emanuel Jebelenau,Romania,rozhodca.php?meno=Emanuel Jebelenau&mesto=Romania
+383,Cristian Corsi,Italy,rozhodca.php?meno=Cristian Corsi&mesto=Italy
+384,Violeta Yaneva,Bulgária,rozhodca.php?meno=Violeta Yaneva&mesto=Bulgária
+385,Giuseppe Magnelli,Olaszország,rozhodca.php?meno=Giuseppe Magnelli&mesto=Olaszország
+386,Petr Chebotarev,Russian Federation,rozhodca.php?meno=Petr Chebotarev&mesto=Russian Federation
+387,Carola Tuokko,Finland,rozhodca.php?meno=Carola Tuokko&mesto=Finland
+388,Horváth Dávid,Szombathely,rozhodca.php?meno=Horváth Dávid&mesto=Szombathely
+389,Pirkó-Geosits Eszter,Szombathely,rozhodca.php?meno=Pirkó-Geosits Eszter&mesto=Szombathely
+390,Bogdán Róbert,Győr,rozhodca.php?meno=Bogdán Róbert&mesto=Győr
+391,Elena Durdina,Russian Federation,rozhodca.php?meno=Elena Durdina&mesto=Russian Federation
+392,Csaba Biro,Hungary,rozhodca.php?meno=Csaba Biro&mesto=Hungary
+393,Dr. Barbulszki Borisz,-,rozhodca.php?meno=Dr. Barbulszki Borisz&mesto=-
+394,Sergiu Luca,Germany,rozhodca.php?meno=Sergiu Luca&mesto=Germany
+395,Gianita Bigazzi,Lesotho,rozhodca.php?meno=Gianita Bigazzi&mesto=Lesotho
+396,Vlad Corina Alexandra,Romania,rozhodca.php?meno=Vlad Corina Alexandra&mesto=Romania
+397,Vladimir Slon,Austria,rozhodca.php?meno=Vladimir Slon&mesto=Austria
+398,Martin Odstrcil,Czech Republic,rozhodca.php?meno=Martin Odstrcil&mesto=Czech Republic
+399,Marcel Gebert,Czech Republic,rozhodca.php?meno=Marcel Gebert&mesto=Czech Republic
+400,Turcsány Gergely,Budapest,rozhodca.php?meno=Turcsány Gergely&mesto=Budapest
+401,Július Schwarcz,Szlovákia,rozhodca.php?meno=Július Schwarcz&mesto=Szlovákia
+402,Michelle Lindoe Enger,Norway,rozhodca.php?meno=Michelle Lindoe Enger&mesto=Norway
+403,Svetlana Krivosheeva,Russian Federation,rozhodca.php?meno=Svetlana Krivosheeva&mesto=Russian Federation
+404,Susanne Holde,Denmark,rozhodca.php?meno=Susanne Holde&mesto=Denmark
+405,Jia Niu,China,rozhodca.php?meno=Jia Niu&mesto=China
+406,Heidi Götz,Ausztria,rozhodca.php?meno=Heidi Götz&mesto=Ausztria
+407,Nenad Jeftic,Szerbia,rozhodca.php?meno=Nenad Jeftic&mesto=Szerbia
+408,Cristian Gheorghe Parnescu,Románia,rozhodca.php?meno=Cristian Gheorghe Parnescu&mesto=Románia
+409,Denise Mayes,Anglia,rozhodca.php?meno=Denise Mayes&mesto=Anglia
+410,Edita Daniute,Litvánia,rozhodca.php?meno=Edita Daniute&mesto=Litvánia
+411,Gundars Briedis,Lettország,rozhodca.php?meno=Gundars Briedis&mesto=Lettország
+412,Peter Nemeth,Hungary,rozhodca.php?meno=Peter Nemeth&mesto=Hungary
+413,Mihai Petre,Romania,rozhodca.php?meno=Mihai Petre&mesto=Romania
+414,Fútó Károly,Győr,rozhodca.php?meno=Fútó Károly&mesto=Győr
+415,dr. Borisz Barbulszki,Ráckeve,rozhodca.php?meno=dr. Borisz Barbulszki&mesto=Ráckeve
+416,Petar Milchev,Bulgaria,rozhodca.php?meno=Petar Milchev&mesto=Bulgaria
+417,Vadkerti Viktor,Szlovákia,rozhodca.php?meno=Vadkerti Viktor&mesto=Szlovákia
+418,Borsos Anikó,Szeged,rozhodca.php?meno=Borsos Anikó&mesto=Szeged
+419,Andrej Skufca,Szlovénia,rozhodca.php?meno=Andrej Skufca&mesto=Szlovénia
+420,Andrzej Gasiorowski,Lengyelország,rozhodca.php?meno=Andrzej Gasiorowski&mesto=Lengyelország
+421,Michael Herditzka,Ausztria,rozhodca.php?meno=Michael Herditzka&mesto=Ausztria
+422,Alessandro Camerotto,Italy,rozhodca.php?meno=Alessandro Camerotto&mesto=Italy
+423,Jürgen Neudeck,Austria,rozhodca.php?meno=Jürgen Neudeck&mesto=Austria
+424,Jaroslav Kriticka,Czech Rep.,rozhodca.php?meno=Jaroslav Kriticka&mesto=Czech Rep.
+425,Krizytof Cisek,Poland,rozhodca.php?meno=Krizytof Cisek&mesto=Poland
+426,Dr. Borisz Barbulszki,Kiskunlacháza,rozhodca.php?meno=Dr. Borisz Barbulszki&mesto=Kiskunlacháza
+427,Havas Márta Gyöngyér,Debrecem,rozhodca.php?meno=Havas Márta Gyöngyér&mesto=Debrecem
+428,Felix Castillo,Belgium,rozhodca.php?meno=Felix Castillo&mesto=Belgium
+429,Aleksey Litvinov,Oroszország,rozhodca.php?meno=Aleksey Litvinov&mesto=Oroszország
+430,Hetei Zoltán,Budapest,rozhodca.php?meno=Hetei Zoltán&mesto=Budapest
+431,Markus Sonyi,Németország,rozhodca.php?meno=Markus Sonyi&mesto=Németország
+432,Heinz Spaeker,Németország,rozhodca.php?meno=Heinz Spaeker&mesto=Németország
+433,Oleg Petrovskyy,Ukraine,rozhodca.php?meno=Oleg Petrovskyy&mesto=Ukraine
+434,Daniela Novak,Slovenia,rozhodca.php?meno=Daniela Novak&mesto=Slovenia
+435,Michele Bonsignori,Italy,rozhodca.php?meno=Michele Bonsignori&mesto=Italy
+436,Jebelóczky Richárd,Budapest,rozhodca.php?meno=Jebelóczky Richárd&mesto=Budapest
+437,Azar Ashrafov,Azerbaijan,rozhodca.php?meno=Azar Ashrafov&mesto=Azerbaijan
+438,Zsuzsanna Zsilák,Hungary,rozhodca.php?meno=Zsuzsanna Zsilák&mesto=Hungary
+439,Horst Beer,Germany,rozhodca.php?meno=Horst Beer&mesto=Germany
+440,Alberto Rodrigues,Portugal,rozhodca.php?meno=Alberto Rodrigues&mesto=Portugal
+441,Prokopis Katiaj,Albánia,rozhodca.php?meno=Prokopis Katiaj&mesto=Albánia
+442,Herczeg Krisztina,Szombathely,rozhodca.php?meno=Herczeg Krisztina&mesto=Szombathely
+443,Szilner  Tibor,Székesfehérvár,rozhodca.php?meno=Szilner  Tibor&mesto=Székesfehérvár
+444,Antoni Czyzyk,Poland,rozhodca.php?meno=Antoni Czyzyk&mesto=Poland
+445,Etelka Lemakne Szabo,Hungary,rozhodca.php?meno=Etelka Lemakne Szabo&mesto=Hungary
+446,Stefan Green,Italy,rozhodca.php?meno=Stefan Green&mesto=Italy
+447,Vano Kandelaki,Georgia,rozhodca.php?meno=Vano Kandelaki&mesto=Georgia
+448,Ismet Muftuoglu,Turkey,rozhodca.php?meno=Ismet Muftuoglu&mesto=Turkey
+449,Michelle Abildtrup,Denmark,rozhodca.php?meno=Michelle Abildtrup&mesto=Denmark
+450,Jean-Sebastien Godet,France,rozhodca.php?meno=Jean-Sebastien Godet&mesto=France
+451,Shen Yi,China,rozhodca.php?meno=Shen Yi&mesto=China
+452,Alicja Majewska,Poland,rozhodca.php?meno=Alicja Majewska&mesto=Poland
+453,Eva Balikone-Akkerman,Hungary,rozhodca.php?meno=Eva Balikone-Akkerman&mesto=Hungary
+454,Juergen Neudeck,France,rozhodca.php?meno=Juergen Neudeck&mesto=France
+455,Bo Loft Jensen,Denmark,rozhodca.php?meno=Bo Loft Jensen&mesto=Denmark
+456,Püspöki- Markó Ágnes,-,rozhodca.php?meno=Püspöki- Markó Ágnes&mesto=-
+457,Petr Odstrcil,Czech Republic,rozhodca.php?meno=Petr Odstrcil&mesto=Czech Republic
+458,Maddalena Merelli,Italy,rozhodca.php?meno=Maddalena Merelli&mesto=Italy
+459,Alexandru Rusu,Románia,rozhodca.php?meno=Alexandru Rusu&mesto=Románia
+460,Laszlo Oze,Hungary,rozhodca.php?meno=Laszlo Oze&mesto=Hungary
+461,Siscu Perez,Spain,rozhodca.php?meno=Siscu Perez &mesto=Spain
+462,Vodovenyecz Andrea,Szeged,rozhodca.php?meno=Vodovenyecz Andrea&mesto=Szeged
+463,Branislava Radovanovic,-,rozhodca.php?meno=Branislava Radovanovic&mesto=-
+464,Zufar Zaripov,-,rozhodca.php?meno=Zufar Zaripov&mesto=-
+465,Antonia Goffredo,Italy,rozhodca.php?meno=Antonia Goffredo&mesto=Italy
+466,Peter Kuzma,Hungary,rozhodca.php?meno=Peter Kuzma&mesto=Hungary
+467,Igor Jagersky,Slovakia,rozhodca.php?meno=Igor Jagersky&mesto=Slovakia
+468,Judit Rimanyi,Szombathely,rozhodca.php?meno=Judit Rimanyi&mesto=Szombathely
+469,Mirco D'Agostino,Italy,rozhodca.php?meno=Mirco D
+470,Zoltan Sandor,Hungary,rozhodca.php?meno=Zoltan Sandor&mesto=Hungary
+471,Fischer Mariann,Erdőkertes,rozhodca.php?meno=Fischer Mariann&mesto=Erdőkertes
+472,Kósa András,Csongrád,rozhodca.php?meno=Kósa András &mesto=Csongrád
+473,Anita Langset,Norvégia,rozhodca.php?meno=Anita Langset&mesto=Norvégia
+474,Martin Parmas,Litvánia,rozhodca.php?meno=Martin Parmas&mesto=Litvánia
+475,Földházi  Péter,Budapest,rozhodca.php?meno=Földházi  Péter&mesto=Budapest
+476,Fülöpné Czakó Mónika,Budapest,rozhodca.php?meno=Fülöpné Czakó Mónika&mesto=Budapest
+477,Schreiber-Hidasi Gabriella,Budapest,rozhodca.php?meno=Schreiber-Hidasi Gabriella&mesto=Budapest
+478,Nagy Márta,Budapest,rozhodca.php?meno=Nagy Márta&mesto=Budapest
+479,Hajma Miklós,Budapest,rozhodca.php?meno=Hajma Miklós&mesto=Budapest
