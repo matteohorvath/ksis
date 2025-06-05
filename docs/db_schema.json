@@ -1,0 +1,100 @@
+[
+  {
+    "type": "table",
+    "name": "Competition",
+    "tbl_name": "Competition",
+    "rootpage": 2,
+    "sql": "CREATE TABLE \"Competition\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"title\" TEXT NOT NULL,\n    \"date\" TEXT,\n    \"location\" TEXT\n)"
+  },
+  {
+    "type": "table",
+    "name": "sqlite_sequence",
+    "tbl_name": "sqlite_sequence",
+    "rootpage": 3,
+    "sql": "CREATE TABLE sqlite_sequence(name,seq)"
+  },
+  {
+    "type": "table",
+    "name": "Event",
+    "tbl_name": "Event",
+    "rootpage": 4,
+    "sql": "CREATE TABLE \"Event\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"name\" TEXT NOT NULL,\n    \"competitionId\" INTEGER NOT NULL,\n    \"falseData\" BOOLEAN NOT NULL DEFAULT false,\n    CONSTRAINT \"Event_competitionId_fkey\" FOREIGN KEY (\"competitionId\") REFERENCES \"Competition\" (\"id\") ON DELETE RESTRICT ON UPDATE CASCADE\n)"
+  },
+  {
+    "type": "table",
+    "name": "Result",
+    "tbl_name": "Result",
+    "rootpage": 5,
+    "sql": "CREATE TABLE \"Result\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"eventId\" INTEGER NOT NULL,\n    \"participantId\" INTEGER NOT NULL,\n    \"number\" TEXT NOT NULL,\n    \"section\" TEXT NOT NULL,\n    \"position\" TEXT NOT NULL,\n    CONSTRAINT \"Result_eventId_fkey\" FOREIGN KEY (\"eventId\") REFERENCES \"Event\" (\"id\") ON DELETE RESTRICT ON UPDATE CASCADE,\n    CONSTRAINT \"Result_participantId_fkey\" FOREIGN KEY (\"participantId\") REFERENCES \"participants\" (\"id\") ON DELETE RESTRICT ON UPDATE CASCADE\n)"
+  },
+  {
+    "type": "table",
+    "name": "Round",
+    "tbl_name": "Round",
+    "rootpage": 6,
+    "sql": "CREATE TABLE \"Round\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"name\" TEXT NOT NULL,\n    \"eventId\" INTEGER NOT NULL,\n    CONSTRAINT \"Round_eventId_fkey\" FOREIGN KEY (\"eventId\") REFERENCES \"Event\" (\"id\") ON DELETE RESTRICT ON UPDATE CASCADE\n)"
+  },
+  {
+    "type": "table",
+    "name": "Mark",
+    "tbl_name": "Mark",
+    "rootpage": 7,
+    "sql": "CREATE TABLE \"Mark\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"roundId\" INTEGER NOT NULL,\n    \"participantId\" INTEGER NOT NULL,\n    \"judgeId\" INTEGER NOT NULL,\n    \"judgeSign\" TEXT NOT NULL,\n    \"mark\" BOOLEAN NOT NULL,\n    \"proposedPlacement\" INTEGER NOT NULL,\n    \"danceType\" TEXT NOT NULL,\n    \"resultId\" INTEGER NOT NULL,\n    CONSTRAINT \"Mark_roundId_fkey\" FOREIGN KEY (\"roundId\") REFERENCES \"Round\" (\"id\") ON DELETE RESTRICT ON UPDATE CASCADE,\n    CONSTRAINT \"Mark_participantId_fkey\" FOREIGN KEY (\"participantId\") REFERENCES \"participants\" (\"id\") ON DELETE RESTRICT ON UPDATE CASCADE,\n    CONSTRAINT \"Mark_judgeId_fkey\" FOREIGN KEY (\"judgeId\") REFERENCES \"judges\" (\"id\") ON DELETE RESTRICT ON UPDATE CASCADE,\n    CONSTRAINT \"Mark_resultId_fkey\" FOREIGN KEY (\"resultId\") REFERENCES \"Result\" (\"id\") ON DELETE RESTRICT ON UPDATE CASCADE\n)"
+  },
+  {
+    "type": "table",
+    "name": "judges",
+    "tbl_name": "judges",
+    "rootpage": 8,
+    "sql": "CREATE TABLE \"judges\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"name\" TEXT NOT NULL,\n    \"location\" TEXT NOT NULL,\n    \"link\" TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "participants",
+    "tbl_name": "participants",
+    "rootpage": 9,
+    "sql": "CREATE TABLE \"participants\" (\n    \"id\" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n    \"name\" TEXT NOT NULL,\n    \"club\" TEXT NOT NULL,\n    \"profileLink\" TEXT NOT NULL\n)"
+  },
+  {
+    "type": "table",
+    "name": "_EventToJudge",
+    "tbl_name": "_EventToJudge",
+    "rootpage": 10,
+    "sql": "CREATE TABLE \"_EventToJudge\" (\n    \"A\" INTEGER NOT NULL,\n    \"B\" INTEGER NOT NULL,\n    CONSTRAINT \"_EventToJudge_A_fkey\" FOREIGN KEY (\"A\") REFERENCES \"Event\" (\"id\") ON DELETE CASCADE ON UPDATE CASCADE,\n    CONSTRAINT \"_EventToJudge_B_fkey\" FOREIGN KEY (\"B\") REFERENCES \"judges\" (\"id\") ON DELETE CASCADE ON UPDATE CASCADE\n)"
+  },
+  {
+    "type": "table",
+    "name": "_ParticipantToRound",
+    "tbl_name": "_ParticipantToRound",
+    "rootpage": 11,
+    "sql": "CREATE TABLE \"_ParticipantToRound\" (\n    \"A\" INTEGER NOT NULL,\n    \"B\" INTEGER NOT NULL,\n    CONSTRAINT \"_ParticipantToRound_A_fkey\" FOREIGN KEY (\"A\") REFERENCES \"participants\" (\"id\") ON DELETE CASCADE ON UPDATE CASCADE,\n    CONSTRAINT \"_ParticipantToRound_B_fkey\" FOREIGN KEY (\"B\") REFERENCES \"Round\" (\"id\") ON DELETE CASCADE ON UPDATE CASCADE\n)"
+  },
+  {
+    "type": "index",
+    "name": "_EventToJudge_AB_unique",
+    "tbl_name": "_EventToJudge",
+    "rootpage": 12,
+    "sql": "CREATE UNIQUE INDEX \"_EventToJudge_AB_unique\" ON \"_EventToJudge\"(\"A\", \"B\")"
+  },
+  {
+    "type": "index",
+    "name": "_EventToJudge_B_index",
+    "tbl_name": "_EventToJudge",
+    "rootpage": 13,
+    "sql": "CREATE INDEX \"_EventToJudge_B_index\" ON \"_EventToJudge\"(\"B\")"
+  },
+  {
+    "type": "index",
+    "name": "_ParticipantToRound_AB_unique",
+    "tbl_name": "_ParticipantToRound",
+    "rootpage": 14,
+    "sql": "CREATE UNIQUE INDEX \"_ParticipantToRound_AB_unique\" ON \"_ParticipantToRound\"(\"A\", \"B\")"
+  },
+  {
+    "type": "index",
+    "name": "_ParticipantToRound_B_index",
+    "tbl_name": "_ParticipantToRound",
+    "rootpage": 15,
+    "sql": "CREATE INDEX \"_ParticipantToRound_B_index\" ON \"_ParticipantToRound\"(\"B\")"
+  }
+]

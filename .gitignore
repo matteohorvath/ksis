@@ -48,4 +48,8 @@ scrape/competition_data/
 scrape/generated/
 scrape/sample_data/
 scrape/comp.zip
-
+scrape/dev.db
+stat/dev.db*
+stat/.venv/
+.vscode
+ 
